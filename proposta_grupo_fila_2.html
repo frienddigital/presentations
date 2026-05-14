@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Proposta — Assessment SAP B1 · Grupo Fila</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #1A3557;
+  --blue:   #2563A8;
+  --sky:    #D6E4F0;
+  --amber:  #D97706;
+  --gray:   #374151;
+  --gray-l: #F3F6F9;
+  --white:  #FFFFFF;
+  --border: #E2E8F0;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: var(--gray);
+  background: #F8FAFC;
+  line-height: 1.65;
+}
+
+/* ── SHARED COMPONENTS ─────────────────────────────────── */
+.sec-hd { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:14px; border-bottom:2px solid var(--sky); }
+.sec-num { width:32px; height:32px; background:var(--navy); color:var(--amber); border-radius:7px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; flex-shrink:0; }
+.sec-title { font-family:'DM Serif Display',serif; font-size:21px; font-weight:400; color:var(--navy); }
+
+p { margin-bottom:13px; font-size:15px; }
+p:last-child { margin-bottom:0; }
+.sub-lbl { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--blue); margin:20px 0 9px; }
+
+.blist { list-style:none; }
+.blist li { padding:7px 0 7px 20px; position:relative; border-bottom:1px solid var(--border); font-size:14.5px; }
+.blist li:last-child { border-bottom:none; }
+.blist li::before { content:'▸'; position:absolute; left:0; color:var(--amber); font-size:11px; top:9px; }
+
+.oos { background:var(--gray-l); border-left:3px solid #CBD5E1; border-radius:0 8px 8px 0; padding:16px 20px; font-size:14px; color:#64748B; }
+
+.del-grid { display:grid; gap:9px; }
+.del-card { display:grid; grid-template-columns:180px 1fr; border-radius:9px; overflow:hidden; border:1px solid var(--border); }
+.del-card:nth-child(odd)  .del-lbl { background:var(--navy); }
+.del-card:nth-child(even) .del-lbl { background:var(--blue); }
+.del-lbl { padding:16px; color:white; font-weight:600; font-size:13.5px; display:flex; align-items:center; }
+.del-desc { padding:14px 18px; font-size:14px; background:white; display:flex; align-items:center; }
+
+.eff-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--navy); border-radius:10px; overflow:hidden; margin-bottom:18px; }
+.eff-item { background:var(--navy); padding:18px 16px; }
+.eff-lbl { font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.4); font-weight:600; margin-bottom:5px; }
+.eff-val { font-size:16px; font-weight:700; color:white; }
+.eff-val.amber { color:var(--amber); }
+
+.crono-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.crono-card { border-radius:9px; overflow:hidden; border:1px solid var(--border); }
+.crono-hd { padding:13px 16px; font-weight:600; font-size:13.5px; color:white; }
+.crono-card:first-child .crono-hd { background:var(--navy); }
+.crono-card:last-child  .crono-hd { background:var(--blue); }
+.crono-bd { padding:12px 16px; background:white; list-style:none; }
+.crono-bd li { font-size:13.5px; padding:5px 0 5px 15px; position:relative; border-bottom:1px solid var(--border); }
+.crono-bd li:last-child { border-bottom:none; }
+.crono-bd li::before { content:'·'; position:absolute; left:0; color:var(--amber); font-weight:700; }
+
+.team-card { border-radius:10px; overflow:hidden; border:1px solid var(--border); margin-bottom:12px; }
+.team-hd { background:var(--gray-l); padding:16px 20px 0; border-bottom:1px solid var(--border); }
+.team-name { font-family:'DM Serif Display',serif; font-size:19px; color:var(--navy); font-weight:400; }
+.team-role { font-size:12px; color:var(--blue); font-weight:500; margin:3px 0 13px; }
+.team-body { padding:16px 20px; font-size:14px; }
+
+.prem-list { display:grid; gap:8px; }
+.prem-item { display:flex; gap:11px; background:white; border:1px solid var(--border); border-radius:8px; padding:12px 15px; font-size:14px; }
+.prem-item::before { content:'✓'; color:var(--blue); font-weight:700; flex-shrink:0; margin-top:1px; }
+
+.roadmap { display:grid; gap:9px; }
+.rm-row { display:grid; grid-template-columns:120px 1fr 42px; border-radius:9px; overflow:hidden; border:1px solid var(--border); }
+.rm-h { padding:15px; font-weight:700; font-size:13px; color:white; display:flex; align-items:center; }
+.rm-row:nth-child(1) .rm-h { background:var(--navy); }
+.rm-row:nth-child(2) .rm-h { background:var(--blue); }
+.rm-row:nth-child(3) .rm-h { background:var(--sky); color:var(--navy); }
+.rm-desc { padding:14px 16px; font-size:14px; background:white; display:flex; align-items:center; }
+.rm-icon { background:var(--gray-l); display:flex; align-items:center; justify-content:center; color:var(--amber); font-size:18px; font-weight:700; }
+
+.cta { background:var(--navy); border-radius:12px; padding:36px 28px; text-align:center; margin-top:32px; }
+.cta h2 { font-family:'DM Serif Display',serif; font-size:24px; color:white; font-weight:400; margin-bottom:7px; }
+.cta p { color:rgba(255,255,255,.6); font-size:14px; margin:0; }
+
+/* ══════════════════════════════════════════
+   DESKTOP (≥ 641px) — vertical scroll
+══════════════════════════════════════════ */
+@media (min-width: 641px) {
+  .mobile-only { display:none !important; }
+
+  .hero { background:var(--navy); color:white; padding:72px 40px 56px; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; top:-120px; right:-120px; width:400px; height:400px; border-radius:50%; background:rgba(37,99,168,.3); pointer-events:none; }
+  .hero-inner { max-width:860px; margin:0 auto; position:relative; z-index:1; }
+  .hero-tag { display:inline-block; font-size:11px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--amber); border:1px solid rgba(217,119,6,.4); border-radius:20px; padding:4px 14px; margin-bottom:24px; }
+  .hero h1 { font-family:'DM Serif Display',serif; font-size:clamp(28px,4.5vw,48px); line-height:1.15; font-weight:400; margin-bottom:10px; }
+  .hero h1 em { font-style:italic; color:var(--amber); }
+  .hero-sub { font-size:16px; color:rgba(255,255,255,.6); margin-bottom:38px; }
+  .meta-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:rgba(255,255,255,.12); border-radius:10px; overflow:hidden; }
+  .meta-item { background:rgba(255,255,255,.06); padding:16px 18px; }
+  .meta-label { font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.4); font-weight:600; margin-bottom:5px; }
+  .meta-val { font-size:15px; font-weight:600; color:white; }
+  .meta-val.hl { color:var(--amber); font-size:17px; }
+
+  .d-nav { background:white; border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; padding:0 40px; }
+  .d-nav-inner { max-width:860px; margin:0 auto; display:flex; overflow-x:auto; scrollbar-width:none; }
+  .d-nav-inner::-webkit-scrollbar { display:none; }
+  .nav-link { font-size:13px; font-weight:500; color:#94A3B8; text-decoration:none; padding:14px 15px; white-space:nowrap; border-bottom:2px solid transparent; transition:color .2s,border-color .2s; }
+  .nav-link.active, .nav-link:hover { color:var(--navy); border-color:var(--blue); }
+
+  .main { max-width:860px; margin:0 auto; padding:52px 40px 100px; }
+  .section { margin-bottom:56px; opacity:0; transform:translateY(16px); transition:opacity .4s,transform .4s; }
+  .section.vis { opacity:1; transform:none; }
+
+  .d-footer { border-top:1px solid var(--border); padding:22px 40px; text-align:center; font-size:13px; color:#94A3B8; background:white; }
+
+  /* mobile elements hidden */
+  .m-slider, .m-dots, .m-hint { display:none !important; }
+}
+
+/* ══════════════════════════════════════════
+   MOBILE (≤ 640px) — horizontal swipe slides
+══════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .desktop-only { display:none !important; }
+
+  body { overflow:hidden; height:100dvh; background:var(--navy); }
+
+  /* slider */
+  .m-slider {
+    display:flex;
+    width:100vw;
+    height:100dvh;
+    overflow-x:scroll;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .m-slider::-webkit-scrollbar { display:none; }
+
+  /* each slide */
+  .m-slide {
+    min-width:100vw;
+    max-width:100vw;
+    height:100dvh;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    flex-shrink:0;
+  }
+
+  /* hero slide */
+  .m-slide-hero {
+    background:var(--navy);
+    padding:52px 26px 44px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    min-height:100dvh;
+  }
+  .m-slide-hero .hero-tag { display:inline-block; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--amber); border:1px solid rgba(217,119,6,.4); border-radius:20px; padding:4px 12px; margin-bottom:20px; }
+  .m-slide-hero h1 { font-family:'DM Serif Display',serif; font-size:28px; line-height:1.2; color:white; font-weight:400; margin-bottom:8px; }
+  .m-slide-hero h1 em { font-style:italic; color:var(--amber); }
+  .m-slide-hero .hero-sub { font-size:13.5px; color:rgba(255,255,255,.55); margin-bottom:30px; }
+  .m-meta { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(255,255,255,.12); border-radius:10px; overflow:hidden; }
+  .m-meta-item { background:rgba(255,255,255,.07); padding:13px 15px; }
+  .m-meta-label { font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.4); font-weight:600; margin-bottom:4px; }
+  .m-meta-val { font-size:15px; font-weight:600; color:white; }
+  .m-meta-val.hl { color:var(--amber); font-size:16px; }
+
+  /* content slides */
+  .m-slide-content {
+    background:#F8FAFC;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+  }
+  .m-slide-top {
+    background:var(--navy);
+    padding:28px 24px 18px;
+    flex-shrink:0;
+  }
+  .m-slide-top .sec-num { background:var(--amber); color:var(--navy); }
+  .m-slide-top .sec-title { color:white; }
+  .m-slide-top .sec-hd { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .m-slide-body {
+    padding:20px 22px 80px;
+    flex:1;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  /* mobile fixes */
+  .del-card { grid-template-columns:1fr; }
+  .del-lbl { padding:11px 14px; }
+  .del-desc { padding:11px 14px; }
+  .eff-bar { grid-template-columns:1fr 1fr; }
+  .crono-grid { grid-template-columns:1fr; }
+  .rm-row { grid-template-columns:100px 1fr 36px; }
+
+  /* dots */
+  .m-dots {
+    position:fixed;
+    bottom:18px; left:0; right:0;
+    display:flex;
+    justify-content:center;
+    gap:7px;
+    z-index:300;
+    pointer-events:none;
+  }
+  .m-dot {
+    width:6px; height:6px;
+    border-radius:3px;
+    background:rgba(255,255,255,.3);
+    transition:background .2s, width .25s;
+  }
+  .m-dot.on { background:var(--amber); width:18px; }
+
+  /* hint */
+  .m-hint {
+    position:fixed;
+    bottom:42px; left:0; right:0;
+    text-align:center;
+    font-size:11px;
+    color:rgba(255,255,255,.35);
+    letter-spacing:.06em;
+    z-index:300;
+    pointer-events:none;
+    animation:fadeHint 3.5s ease forwards;
+  }
+  @keyframes fadeHint { 0%{opacity:0} 15%{opacity:1} 75%{opacity:1} 100%{opacity:0} }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     DESKTOP LAYOUT
+══════════════════════════════════════ -->
+<div class="desktop-only">
+
+  <!-- hero -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">Proposta Comercial · Confidencial</div>
+      <h1>Assessment Pontual <em>Pré-Migração</em><br>SAP Business One</h1>
+      <p class="hero-sub">SQL Server → SAP HANA &nbsp;·&nbsp; Grupo Fila</p>
+      <div class="meta-grid">
+        <div class="meta-item"><div class="meta-label">Cliente</div><div class="meta-val">Grupo Fila</div></div>
+        <div class="meta-item"><div class="meta-label">Fornecido por</div><div class="meta-val">Friend Consulting</div></div>
+        <div class="meta-item"><div class="meta-label">Emissão</div><div class="meta-val">Maio de 2025</div></div>
+        <div class="meta-item"><div class="meta-label">Validade</div><div class="meta-val">30 dias</div></div>
+        <div class="meta-item"><div class="meta-label">Valor total</div><div class="meta-val hl">R$ 2.640,00</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- nav -->
+  <nav class="d-nav">
+    <div class="d-nav-inner">
+      <a href="#d1" class="nav-link">Contexto</a>
+      <a href="#d2" class="nav-link">Objetivo</a>
+      <a href="#d3" class="nav-link">Escopo</a>
+      <a href="#d4" class="nav-link">Entregáveis</a>
+      <a href="#d5" class="nav-link">Cronograma</a>
+      <a href="#d6" class="nav-link">Equipe</a>
+      <a href="#d7" class="nav-link">Premissas</a>
+      <a href="#d8" class="nav-link">Próximos Passos</a>
+    </div>
+  </nav>
+
+  <div class="main">
+
+    <div class="section" id="d1">
+      <div class="sec-hd"><div class="sec-num">1</div><h2 class="sec-title">Contexto</h2></div>
+      <p>O Grupo Fila utiliza o SAP Business One com banco de dados SQL Server e avalia a migração para SAP HANA. A nova gestão de TI reconhece a necessidade de uma avaliação criteriosa antes de qualquer decisão — especialmente considerando que o ambiente atual apresenta pontos de atenção que precisam ser mapeados para que o próximo passo seja dado com segurança.</p>
+      <p>A Friend Consulting propõe um Assessment Pontual Pré-Migração: trabalho remoto de 2 semanas, estimativa de 12 horas de esforço, conduzido pelo consultor especialista SAP B1 Luciano Andrade — com foco no que realmente importa para a tomada de decisão.</p>
+    </div>
+
+    <div class="section" id="d2">
+      <div class="sec-hd"><div class="sec-num">2</div><h2 class="sec-title">Objetivo</h2></div>
+      <p>Avaliar o ambiente atual SAP Business One do Grupo Fila com foco na preparação para a migração SQL Server → SAP HANA, entregando:</p>
+      <ul class="blist" style="margin-top:14px">
+        <li>Mapeamento dos principais riscos técnicos e funcionais da migração</li>
+        <li>Identificação de oportunidades de melhoria de curto prazo no ambiente atual</li>
+        <li>Roadmap macro com próximos passos estruturados</li>
+        <li>Posicionamento da Friend como parceira consultiva para as fases seguintes</li>
+      </ul>
+    </div>
+
+    <div class="section" id="d3">
+      <div class="sec-hd"><div class="sec-num">3</div><h2 class="sec-title">Escopo</h2></div>
+      <p>O assessment cobre um único ambiente SAP B1 (a definir na reunião inicial) e se concentra em:</p>
+      <div class="sub-lbl">Cenário atual</div>
+      <ul class="blist">
+        <li>Versão do SAP B1 e do SQL Server em uso</li>
+        <li>Processos core: Financeiro, Contábil, Compras, Vendas, Estoque, Produção e Fiscal</li>
+        <li>Responsáveis internos pelo ambiente</li>
+      </ul>
+      <div class="sub-lbl">Riscos técnicos e funcionais</div>
+      <ul class="blist">
+        <li>Até 3 add-ons principais (priorizados na reunião inicial)</li>
+        <li>Principais integrações com sistemas externos</li>
+        <li>Relatórios e queries críticos para a operação</li>
+        <li>Pontos sensíveis de compatibilidade com SAP HANA</li>
+      </ul>
+      <div class="sub-lbl">Oportunidades de melhoria</div>
+      <p>Durante o levantamento serão identificadas melhorias de curto prazo — ajustes em processos, relatórios e governança — que poderão ser executadas em projeto específico, gerando valor imediato antes mesmo do início da migração.</p>
+      <div class="sub-lbl">Fora de escopo</div>
+      <div class="oos">Não estão contemplados: execução da migração, instalação de HANA, inventário completo de objetos customizados, correção de add-ons ou integrações, testes de homologação e treinamentos. Necessidades adicionais serão tratadas em propostas específicas.</div>
+    </div>
+
+    <div class="section" id="d4">
+      <div class="sec-hd"><div class="sec-num">4</div><h2 class="sec-title">Entregáveis</h2></div>
+      <div class="del-grid">
+        <div class="del-card"><div class="del-lbl">Relatório Executivo</div><div class="del-desc">Principais riscos, pontos de atenção em add-ons, integrações e relatórios críticos, com recomendações de mitigação.</div></div>
+        <div class="del-card"><div class="del-lbl">Oportunidades de Melhoria</div><div class="del-desc">Lista priorizada de ações de curto prazo — base para proposta de execução imediata.</div></div>
+        <div class="del-card"><div class="del-lbl">Roadmap Macro</div><div class="del-desc">Etapas recomendadas para preparação e execução da migração, com priorização e fases futuras.</div></div>
+        <div class="del-card"><div class="del-lbl">Reunião de Resultados</div><div class="del-desc">Apresentação remota dos achados, riscos e próximos passos com os responsáveis do Grupo Fila.</div></div>
+      </div>
+    </div>
+
+    <div class="section" id="d5">
+      <div class="sec-hd"><div class="sec-num">5</div><h2 class="sec-title">Esforço e Cronograma</h2></div>
+      <div class="eff-bar">
+        <div class="eff-item"><div class="eff-lbl">Carga Total</div><div class="eff-val">12 horas</div></div>
+        <div class="eff-item"><div class="eff-lbl">Modelo</div><div class="eff-val">Remoto</div></div>
+        <div class="eff-item"><div class="eff-lbl">Prazo</div><div class="eff-val">2 semanas</div></div>
+        <div class="eff-item"><div class="eff-lbl">Valor Total</div><div class="eff-val amber">R$ 2.640,00</div></div>
+      </div>
+      <div class="crono-grid">
+        <div class="crono-card">
+          <div class="crono-hd">Etapa 1 — Levantamento</div>
+          <ul class="crono-bd"><li>Reunião inicial</li><li>Entendimento do ambiente atual</li><li>Levantamento de processos, add-ons e integrações</li><li>Identificação de relatórios e queries críticas</li></ul>
+        </div>
+        <div class="crono-card">
+          <div class="crono-hd">Etapa 2 — Entrega</div>
+          <ul class="crono-bd"><li>Consolidação dos riscos</li><li>Priorização das oportunidades</li><li>Elaboração do relatório e roadmap</li><li>Apresentação dos resultados</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="d6">
+      <div class="sec-hd"><div class="sec-num">6</div><h2 class="sec-title">Equipe Técnica</h2></div>
+      <div class="team-card">
+        <div class="team-hd"><div class="team-name">Luciano Andrade</div><div class="team-role">Consultor SAP B1 Sênior · +20 anos · Responsável técnico pelo assessment</div></div>
+        <div class="team-body">Especialista em implementação e sustentação de SAP B1 para PMEs, com domínio em gestão de projetos ASAP, relatórios (MSSQL, Crystal Reports, HANA), principais add-ons do mercado, parametrização fiscal/contábil e rollout de projetos.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-hd"><div class="team-name">João Paulo Bittencourt</div><div class="team-role">Gestão e Qualidade da Entrega · Managing Director, Friend Consulting · +20 anos em SAP</div></div>
+        <div class="team-body">SAP Delivery and Transformation Leader à frente da Friend Consulting desde 2007. Mais de 50 projetos SAP coordenados e 200 consultores liderados em iniciativas de implementação, upgrade, suporte e melhoria.</div>
+      </div>
+    </div>
+
+    <div class="section" id="d7">
+      <div class="sec-hd"><div class="sec-num">7</div><h2 class="sec-title">Premissas</h2></div>
+      <div class="prem-list">
+        <div class="prem-item">O assessment cobre um único ambiente SAP B1, a definir na reunião inicial. Ambientes adicionais são objeto de proposta complementar.</div>
+        <div class="prem-item">A avaliação de add-ons limita-se aos 3 principais, priorizados com o cliente.</div>
+        <div class="prem-item">O Grupo Fila indicará responsáveis internos e responderá solicitações em até 2 dias úteis — atrasos poderão requerer reprogramação.</div>
+        <div class="prem-item">A análise é baseada nas informações e acessos disponibilizados pelo cliente, com caráter pontual e preliminar.</div>
+        <div class="prem-item">Nenhuma alteração será executada no ambiente SAP durante este trabalho.</div>
+        <div class="prem-item">Pagamento em até 5 dias úteis após a reunião de apresentação dos resultados.</div>
+        <div class="prem-item">Relatório com formato executivo e objetivo, focado nos principais achados e recomendações.</div>
+      </div>
+    </div>
+
+    <div class="section" id="d8">
+      <div class="sec-hd"><div class="sec-num">8</div><h2 class="sec-title">Próximos Passos</h2></div>
+      <p style="margin-bottom:20px">O assessment é o ponto de partida de uma jornada de evolução estruturada. O roadmap entregue contemplará três horizontes:</p>
+      <div class="roadmap" style="margin-bottom:0">
+        <div class="rm-row"><div class="rm-h">Curto prazo</div><div class="rm-desc">Execução das oportunidades de melhoria — ganhos concretos e rápidos, com baixo risco e esforço reduzido.</div><div class="rm-icon">↗</div></div>
+        <div class="rm-row"><div class="rm-h">Médio prazo</div><div class="rm-desc">Preparação estruturada para a migração, endereçando os riscos mapeados antes do projeto principal.</div><div class="rm-icon">→</div></div>
+        <div class="rm-row"><div class="rm-h">Longo prazo</div><div class="rm-desc">Migração SQL Server → SAP HANA e nova implementação com base sólida e validada.</div><div class="rm-icon">⬆</div></div>
+      </div>
+      <div class="cta"><h2>Vamos avançar juntos?</h2><p>Entre em contato com a Friend Consulting para dar o próximo passo.</p></div>
+    </div>
+
+  </div><!-- end .main -->
+  <div class="d-footer">Friend Consulting &nbsp;·&nbsp; www.friend.com.br &nbsp;·&nbsp; Documento confidencial · Maio de 2025</div>
+</div><!-- end desktop-only -->
+
+
+<!-- ══════════════════════════════════════
+     MOBILE LAYOUT
+══════════════════════════════════════ -->
+<div class="m-dots mobile-only" id="mDots"></div>
+<div class="m-hint mobile-only">deslize para navegar →</div>
+
+<div class="m-slider mobile-only" id="mSlider">
+
+  <!-- slide 0: capa -->
+  <div class="m-slide">
+    <div class="m-slide-hero">
+      <div class="hero-tag">Proposta Comercial · Confidencial</div>
+      <h1>Assessment Pontual <em>Pré-Migração</em> SAP B1</h1>
+      <p class="hero-sub">SQL Server → SAP HANA · Grupo Fila</p>
+      <div class="m-meta">
+        <div class="m-meta-item"><div class="m-meta-label">Cliente</div><div class="m-meta-val">Grupo Fila</div></div>
+        <div class="m-meta-item"><div class="m-meta-label">Fornecido por</div><div class="m-meta-val">Friend Consulting</div></div>
+        <div class="m-meta-item"><div class="m-meta-label">Emissão</div><div class="m-meta-val">Maio 2025</div></div>
+        <div class="m-meta-item"><div class="m-meta-label">Validade</div><div class="m-meta-val">30 dias</div></div>
+        <div class="m-meta-item" style="grid-column:span 2"><div class="m-meta-label">Valor total</div><div class="m-meta-val hl">R$ 2.640,00</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- slide 1: contexto -->
+  <div class="m-slide">
+    <div class="m-slide-content">
+      <div class="m-slide-top"><div class="sec-hd"><div class="sec-num">1</div><h2 class="sec-title">Contexto</h2></div></div>
+      <div class="m-slide-body">
+        <p>O Grupo Fila utiliza o SAP Business One com banco de dados SQL Server e avalia a migração para SAP HANA. A nova gestão de TI reconhece a necessidade de uma avaliação criteriosa antes de qualquer decisão — especialmente considerando que o ambiente atual apresenta pontos de atenção que precisam ser mapeados para que o próximo passo seja dado com segurança.</p>
+        <p>A Friend Consulting propõe um Assessment Pontual Pré-Migração: trabalho remoto de 2 semanas, estimativa de 12 horas de esforço, conduzido pelo consultor especialista SAP B1 Luciano Andrade — com foco no que realmente importa para a tomada de decisão.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- slide 2: objetivo -->
+  <div class="m-slide">
+    <div class="m-slide-content">
+      <div class="m-slide-top"><div class="sec-hd"><div class="sec-num">2</div><h2 class="sec-title">Objetivo</h2></div></div>
+      <div class="m-slide-body">
+        <p>Avaliar o ambiente SAP B1 do Grupo Fila com foco na preparação para a migração SQL Server → SAP HANA, entregando:</p>
+        <ul class="blist" style="margin-top:12px">
+          <li>Mapeamento dos principais riscos técnicos e funcionais</li>
+          <li>Identificação de oportunidades de melhoria de curto prazo</li>
+          <li>Roadmap macro com próximos passos estruturados</li>
+          <li>Posicionamento da Friend como parceira consultiva</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- slide 3: escopo -->
+  <div class="m-slide">
+    <div class="m-slide-content">
+      <div class="m-slide-top"><div class="sec-hd"><div class="sec-num">3</div><h2 class="sec-title">Escopo</h2></div></div>
+      <div class="m-slide-body">
+        <p>Um único ambiente SAP B1 (a definir na reunião inicial).</p>
+        <div class="sub-lbl">Cenário atual</div>
+        <ul class="blist"><li>Versão do SAP B1 e SQL Server</li><li>Processos: Financeiro, Contábil, Compras, Vendas, Estoque, Produção e Fiscal</li><li>Responsáveis internos</li></ul>
+        <div class="sub-lbl">Riscos técnicos</div>
+        <ul class="blist"><li>Até 3 add-ons principais</li><li>Integrações com sistemas externos</li><li>Relatórios e queries críticos</li><li>Compatibilidade com SAP HANA</li></ul>
+        <div class="sub-lbl">Fora de escopo</div>
+        <div class="oos">Execução da migração, instalação de HANA, inventário completo, correção de add-ons, testes de homologação e treinamentos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- slide 4: entregáveis -->
+  <div class="m-slide">
+    <div class="m-slide-content">
+      <div class="m-slide-top"><div class="sec-hd"><div class="sec-num">4</div><h2 class="sec-title">Entregáveis</h2></div></div>
+      <div class="m-slide-body">
+        <div class="del-grid">
+          <div class="del-card"><div class="del-lbl">Relatório Executivo</div><div class="del-desc">Riscos, pontos de atenção e recomendações de mitigação.</div></div>
+          <div class="del-card"><div class="del-lbl">Oportunidades de Melhoria</div><div class="del-desc">Lista priorizada de ações de curto prazo.</div></div>
+          <div class="del-card"><div class="del-lbl">Roadmap Macro</div><div class="del-desc">Etapas e priorização para as próximas fases.</div></div>
+          <div class="del-card"><div class="del-lbl">Reunião de Resultados</div><div class="del-desc">Apresentação remota de todos os achados.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- slide 5: cronograma -->
+  <div class="m-slide">
+    <div class="m-slide-content">
+      <div class="m-slide-top"><div class="sec-hd"><div class="sec-num">5</div><h2 class="sec-title">Esforço e Cronograma</h2></div></div>
+      <div class="m-slide-body">
+        <div class="eff-bar">
+          <div class="eff-item"><div class="eff-lbl">Carga</div><div class="eff-val">12h</div></div>
+          <div class="eff-item"><div class="eff-lbl">Modelo</div><div class="eff-val">Remoto</div></div>
+          <div class="eff-item"><div class="eff-lbl">Prazo</div><div class="eff-val">2 sem.</div></div>
+          <div class="eff-item"><div class="eff-lbl">Valor</div><div class="eff-val amber" style="font-size:14px">R$2.640</div></div>
+        </div>
+        <div class="crono-grid">
+          <div class="crono-card">
+            <div class="crono-hd">Etapa 1 — Levantamento</div>
+            <ul class="crono-bd"><li>Reunião inicial</li><li>Ambiente atual</li><li>Processos e integrações</li><li>Relatórios críticos</li></ul>
+          </div>
+          <div class="crono-card">
+            <div class="crono-hd">Etapa 2 — Entrega</div>
+            <ul class="crono-bd"><li>Consolidação de riscos</li><li>Oportunidades</li><li>Relatório e roadmap</li><li>Apresentação final</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- slide 6: equipe -->
+  <div class="m-slide">
+    <div class="m-slide-content">
+      <div class="m-slide-top"><div class="sec-hd"><div class="sec-num">6</div><h2 class="sec-title">Equipe Técnica</h2></div></div>
+      <div class="m-slide-body">
+        <div class="team-card">
+          <div class="team-hd"><div class="team-name">Luciano Andrade</div><div class="team-role">Consultor SAP B1 Sênior · +20 anos · Responsável técnico</div></div>
+          <div class="team-body">Especialista em SAP B1 para PMEs com domínio em relatórios, add-ons, parametrização fiscal/contábil e rollout de projetos.</div>
+        </div>
+        <div class="team-card">
+          <div class="team-hd"><div class="team-name">João Paulo Bittencourt</div><div class="team-role">Gestão e Qualidade da Entrega · Managing Director · +20 anos SAP</div></div>
+          <div class="team-body">À frente da Friend Consulting desde 2007. Mais de 50 projetos SAP e 200 consultores liderados. Governa a entrega e o alinhamento com o cliente.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- slide 7: premissas -->
+  <div class="m-slide">
+    <div class="m-slide-content">
+      <div class="m-slide-top"><div class="sec-hd"><div class="sec-num">7</div><h2 class="sec-title">Premissas</h2></div></div>
+      <div class="m-slide-body">
+        <div class="prem-list">
+          <div class="prem-item">Um único ambiente SAP B1. Ambientes adicionais são objeto de proposta complementar.</div>
+          <div class="prem-item">Avaliação limitada a 3 add-ons principais, priorizados com o cliente.</div>
+          <div class="prem-item">Respostas do cliente em até 2 dias úteis — atrasos poderão requerer reprogramação.</div>
+          <div class="prem-item">Análise baseada nos acessos e informações disponibilizados pelo cliente.</div>
+          <div class="prem-item">Nenhuma alteração executada no ambiente SAP durante este trabalho.</div>
+          <div class="prem-item">Pagamento em até 5 dias úteis após a apresentação dos resultados.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- slide 8: próximos passos -->
+  <div class="m-slide">
+    <div class="m-slide-content">
+      <div class="m-slide-top"><div class="sec-hd"><div class="sec-num">8</div><h2 class="sec-title">Próximos Passos</h2></div></div>
+      <div class="m-slide-body">
+        <p style="margin-bottom:16px">O roadmap entregue contemplará três horizontes:</p>
+        <div class="roadmap" style="margin-bottom:24px">
+          <div class="rm-row"><div class="rm-h">Curto prazo</div><div class="rm-desc">Execução das oportunidades de melhoria com ganhos rápidos e baixo risco.</div><div class="rm-icon">↗</div></div>
+          <div class="rm-row"><div class="rm-h">Médio prazo</div><div class="rm-desc">Preparação estruturada para a migração endereçando os riscos mapeados.</div><div class="rm-icon">→</div></div>
+          <div class="rm-row"><div class="rm-h">Longo prazo</div><div class="rm-desc">Migração SQL Server → HANA e nova implementação com base sólida.</div><div class="rm-icon">⬆</div></div>
+        </div>
+        <div class="cta"><h2>Vamos avançar juntos?</h2><p>Entre em contato com a Friend Consulting.</p></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end m-slider -->
+
+<script>
+// ── DESKTOP fade-in ───────────────────────────────────────────
+if (window.innerWidth > 640) {
+  const obs = new IntersectionObserver(
+    es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.section').forEach(s => obs.observe(s));
+
+  const ids = ['d1','d2','d3','d4','d5','d6','d7','d8'];
+  const links = document.querySelectorAll('.nav-link');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    ids.forEach(id => { const el = document.getElementById(id); if (el && window.scrollY >= el.offsetTop - 130) cur = id; });
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + cur));
+  }, { passive: true });
+}
+
+// ── MOBILE dots ───────────────────────────────────────────────
+if (window.innerWidth <= 640) {
+  const slider = document.getElementById('mSlider');
+  const dotsEl = document.getElementById('mDots');
+  const total = slider.querySelectorAll('.m-slide').length;
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'm-dot' + (i === 0 ? ' on' : '');
+    dotsEl.appendChild(d);
+  }
+  const dots = dotsEl.querySelectorAll('.m-dot');
+
+  slider.addEventListener('scroll', () => {
+    const idx = Math.round(slider.scrollLeft / window.innerWidth);
+    dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+  }, { passive: true });
+}
+</script>
+</body>
+</html>
