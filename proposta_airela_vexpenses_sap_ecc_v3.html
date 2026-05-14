@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proposta Comercial | Airela - Integração VExpenses x SAP ECC</title>
+  <style>
+    :root {
+      --primary: #12355b;
+      --secondary: #1f6f8b;
+      --accent: #2a9d8f;
+      --dark: #1f2933;
+      --muted: #5b6770;
+      --light: #f5f7fa;
+      --border: #d9e2ec;
+      --white: #ffffff;
+      --friend-red: #c41230;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--dark);
+      background: #eef2f6;
+      line-height: 1.55;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 32px auto;
+      background: var(--white);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      padding: 34px 48px 42px;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .logo-box {
+      background: rgba(255,255,255,0.94);
+      border-radius: 14px;
+      padding: 8px 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      min-width: 155px;
+      text-align: center;
+    }
+
+    .logo-box img {
+      height: 76px;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      opacity: 0.88;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 32px;
+      line-height: 1.15;
+      margin: 0 0 18px;
+      max-width: 760px;
+    }
+
+    .subtitle {
+      font-size: 17px;
+      opacity: 0.95;
+      max-width: 800px;
+      margin: 0;
+    }
+
+    main { padding: 38px 48px 46px; }
+
+    section { margin-bottom: 34px; }
+
+    h2 {
+      font-size: 22px;
+      margin: 0 0 14px;
+      color: var(--primary);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 17px;
+      margin: 20px 0 8px;
+      color: var(--secondary);
+    }
+
+    p { margin: 0 0 12px; }
+
+    ul { margin: 8px 0 0 20px; padding: 0; }
+    li { margin-bottom: 7px; }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .card, .team-card {
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .card strong {
+      color: var(--primary);
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .team-card .name {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 3px;
+    }
+
+    .team-card .role {
+      color: var(--secondary);
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 10px;
+    }
+
+    .summary-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 14px;
+    }
+
+    .summary-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .pill {
+      background: #e8f2f7;
+      color: var(--primary);
+      border: 1px solid #c6dce8;
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .highlight {
+      background: #ecfdf5;
+      border: 1px solid #b7ebd0;
+      border-left: 5px solid var(--accent);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-top: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th { background: var(--primary); color: var(--white); font-weight: 700; }
+    tr:nth-child(even) td { background: #f8fafc; }
+
+    .investment {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 22px;
+      align-items: stretch;
+      margin-top: 12px;
+    }
+
+    .price-box {
+      background: linear-gradient(135deg, #0f3a5f, #1f6f8b);
+      color: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 170px;
+    }
+
+    .price-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    .price { font-size: 38px; font-weight: 700; line-height: 1.1; }
+    .price-note { font-size: 13px; opacity: 0.9; margin-top: 10px; }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .meta div {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+    .footer {
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+      padding: 26px 48px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .signature {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .small { color: var(--muted); font-size: 14px; }
+    .no-break { break-inside: avoid; page-break-inside: avoid; }
+    .page-start { page-break-before: always; }
+
+    @media (max-width: 760px) {
+      .page { margin: 0; border-radius: 0; }
+      header, main, .footer { padding-left: 24px; padding-right: 24px; }
+      .card-grid, .investment, .meta, .team-grid, .summary-columns { grid-template-columns: 1fr; }
+      h1 { font-size: 27px; }
+      .brand-row { flex-direction: column; align-items: flex-start; }
+      .logo-box img { height: 64px; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page { margin: 0; box-shadow: none; border-radius: 0; max-width: none; }
+      header { padding: 30px 42px; }
+      main { padding: 28px 42px; }
+      .footer { padding: 20px 42px; }
+      section { margin-bottom: 22px; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand-row">
+        <div>
+          <div class="eyebrow">Proposta Comercial</div>
+          <h1>Integração VExpenses x SAP ECC para criação automática de requisições de compra</h1>
+          <p class="subtitle">Proposta para a Airela, contemplando integração direta entre a plataforma VExpenses e o SAP ECC, com criação de requisições de compra a partir de despesas corporativas aprovadas.</p>
+        </div>
+        <div class="logo-box" aria-label="Friend Consulting">
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QA6RXhpZgAATU0AKgAAAAgAA1EQAAEAAAABAQAAAFERAAQAAAABAAAOxFESAAQAAAABAAAOxAAAAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAD6APoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo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" alt="Friend Consulting" />
+        </div>
+      </div>
+      <div class="meta">
+        <div><strong>Cliente:</strong> Airela</div>
+        <div><strong>Proponente:</strong> Friend Consulting</div>
+        <div><strong>Modelo:</strong> Projeto fechado</div>
+        <div><strong>Prazo estimado:</strong> 4 a 5 semanas</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="no-break">
+        <h2>1. Contexto</h2>
+        <p>A Airela utiliza a plataforma VExpenses para controle de despesas corporativas, incluindo cartão corporativo e prestação de contas. Após a aprovação das despesas no VExpenses, existe a necessidade de automatizar a criação de requisições de compra no SAP ECC, reduzindo atividades manuais, retrabalho e riscos operacionais.</p>
+        <p>A Friend Consulting propõe o desenvolvimento de uma integração direta entre o VExpenses e o SAP ECC, considerando que a Airela não possui SAP PI/PO e que a API do VExpenses já está disponível para consumo.</p>
+      </section>
+
+      <section class="no-break page-start">
+        <h2>2. Resumo executivo da Airela</h2>
+        <div class="summary-box">
+          <p>A Airela é uma indústria farmacêutica brasileira, com operação em Pedras Grandes/SC, dedicada ao desenvolvimento, fabricação e comercialização de medicamentos e produtos voltados à saúde e bem-estar.</p>
+          <p>A empresa declara presença em mais de 80.000 pontos de venda, atendendo farmácias independentes, pequenas, médias e grandes redes, além de atuar com distribuidoras, canal hospitalar, marcas próprias e terceirização.</p>
+          <div class="summary-columns">
+            <div>
+              <h3>Presença e operação</h3>
+              <ul>
+                <li>Atuação nacional no mercado farmacêutico.</li>
+                <li>Relacionamento com redes, farmácias, distribuidoras e canal hospitalar.</li>
+                <li>Operação com demanda por controle, rastreabilidade e eficiência administrativa.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Portfólio e crescimento</h3>
+              <ul>
+                <li>Linhas de medicamentos, probióticos, fitoterápicos, dermocosméticos, vitaminas e suplementos.</li>
+                <li>Foco em P&D, regulatório, expansão fabril e novas linhas de produtos.</li>
+                <li>Contexto compatível com automação de processos internos e integração com SAP.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="pill-list">
+            <span class="pill">Indústria farmacêutica</span>
+            <span class="pill">SAP ECC</span>
+            <span class="pill">Despesas corporativas</span>
+            <span class="pill">VExpenses</span>
+            <span class="pill">Automação de requisições</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="no-break">
+        <h2>3. Objetivo da proposta</h2>
+        <p>Desenvolver uma integração que permita a criação automática de requisições de compra no SAP ECC a partir de despesas/prestações de contas aprovadas no VExpenses.</p>
+        <div class="highlight">
+          <strong>Resultado esperado:</strong> após a aprovação da despesa no VExpenses, o SAP ECC deverá criar automaticamente uma requisição de compra por colaborador/viagem, com cada despesa representada como um item da requisição.
+        </div>
+      </section>
+
+      <section>
+        <h2>4. Escopo macro da solução</h2>
+        <div class="card-grid">
+          <div class="card">
+            <strong>Integração</strong>
+            Consumo da API do VExpenses diretamente pelo SAP ECC, sem utilização de PI/PO, CPI ou middleware.
+          </div>
+          <div class="card">
+            <strong>Requisição SAP</strong>
+            Criação automática de requisição de compra via BAPI standard, com uma requisição por colaborador/viagem.
+          </div>
+          <div class="card">
+            <strong>Itens da requisição</strong>
+            Cada despesa aprovada no VExpenses será representada como um item da requisição no SAP.
+          </div>
+        </div>
+
+        <h3>Atividades contempladas</h3>
+        <ul>
+          <li>Alinhamento funcional e técnico do processo de integração.</li>
+          <li>Análise dos dados disponibilizados pela API do VExpenses.</li>
+          <li>Validação da conectividade entre SAP ECC e API VExpenses.</li>
+          <li>Definição dos campos necessários para criação da requisição no SAP.</li>
+          <li>Criação de tabela Z simples para tratamento de DE-PARA/exceções.</li>
+          <li>Desenvolvimento do consumo da API VExpenses pelo SAP ECC.</li>
+          <li>Tratamento dos dados por colaborador/viagem.</li>
+          <li>Criação dos itens da requisição a partir das despesas aprovadas.</li>
+          <li>Tratamento simples para despesas de combustível, conforme regra definida com a Airela.</li>
+          <li>Criação da requisição de compra via BAPI standard do SAP.</li>
+          <li>Criação de log simples de processamento.</li>
+          <li>Disponibilização de reprocessamento manual básico em caso de erro.</li>
+          <li>Testes unitários e apoio aos testes integrados com a Airela.</li>
+          <li>Apoio à homologação e go-live assistido.</li>
+        </ul>
+      </section>
+
+      <section class="no-break">
+        <h2>5. Perfil da equipe envolvida</h2>
+        <p>A equipe proposta combina coordenação de entrega, liderança funcional SAP e desenvolvimento ABAP para execução da integração.</p>
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="name">João Paulo Bittencourt</div>
+            <div class="role">Gestão e coordenação do projeto</div>
+            <p>Executivo responsável pela governança da entrega, relacionamento com o cliente, controle de escopo e coordenação dos especialistas envolvidos. Possui mais de 20 anos de experiência em SAP, programas de transformação, rollouts, AMS, estabilização, integrações e liderança de equipes.</p>
+          </div>
+          <div class="team-card">
+            <div class="name">Marcelo Coelho</div>
+            <div class="role">Consultoria funcional SAP</div>
+            <p>Consultor funcional SAP responsável pelo desenho e validação funcional da integração, especificação de requisitos, análise de processo, testes funcionais e apoio à homologação. Possui experiência em projetos SAP, especificação funcional, gestão de problemas, incidentes e planos de ação.</p>
+          </div>
+          <div class="team-card">
+            <div class="name">Anderson Santos</div>
+            <div class="role">ABAP / Desenvolvedor</div>
+            <p>Especialista técnico responsável pelo desenvolvimento ABAP, consumo da API, tratamento dos dados, criação da requisição via BAPI, logs e reprocessamento. Possui experiência em ABAP, SAP ERP/R/3, Fiori/TDF e certificações em SAP Cloud Integration e SAP BTP Essentials.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="no-break">
+        <h2>6. Abordagem de execução</h2>
+        <table>
+          <thead>
+            <tr><th>Fase</th><th>Descrição</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Alinhamento e desenho</strong></td>
+              <td>Kickoff, validação do fluxo de negócio, campos necessários, premissas técnicas e desenho funcional/técnico da solução.</td>
+            </tr>
+            <tr>
+              <td><strong>2. Construção da integração</strong></td>
+              <td>Desenvolvimento do consumo da API VExpenses, tratamento dos dados, tabela Z, regra de combustível e criação da requisição via BAPI.</td>
+            </tr>
+            <tr>
+              <td><strong>3. Logs e reprocessamento</strong></td>
+              <td>Criação de log simples de processamento e mecanismo básico de reprocessamento manual para erros identificados.</td>
+            </tr>
+            <tr>
+              <td><strong>4. Testes e homologação</strong></td>
+              <td>Testes técnicos, testes funcionais, apoio aos testes integrados e ajustes relacionados ao escopo aprovado.</td>
+            </tr>
+            <tr>
+              <td><strong>5. Go-live assistido</strong></td>
+              <td>Apoio ao transporte, ativação da solução e acompanhamento inicial da entrada em produção.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="no-break">
+        <h2>7. Cronograma estimado</h2>
+        <p>O prazo estimado para execução é de <strong>4 a 5 semanas</strong>, condicionado à disponibilidade dos ambientes, acessos, documentação da API, liberações técnicas e participação da Airela nos testes e homologação.</p>
+        <table>
+          <thead><tr><th>Semana</th><th>Atividades principais</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Semana 1</strong></td><td>Kickoff, definição funcional, análise da API, campos da requisição e validação de conectividade.</td></tr>
+            <tr><td><strong>Semana 2</strong></td><td>Especificação funcional, desenho técnico, tabela Z e início da construção da integração.</td></tr>
+            <tr><td><strong>Semana 3</strong></td><td>Desenvolvimento ABAP: consumo da API, tratamento dos dados, itens e criação da requisição via BAPI.</td></tr>
+            <tr><td><strong>Semana 4</strong></td><td>Logs, reprocessamento, testes técnicos, testes funcionais e ajustes.</td></tr>
+            <tr><td><strong>Semana 5</strong></td><td>Testes integrados, homologação assistida, deploy e go-live assistido.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>8. Premissas</h2>
+        <ul>
+          <li>A Airela utiliza SAP ECC e não possui SAP PI/PO.</li>
+          <li>A integração será direta entre SAP ECC e API VExpenses.</li>
+          <li>A API do VExpenses já está disponível e documentada para uso no projeto.</li>
+          <li>A Airela será responsável pelas liberações de rede, certificados, firewall, permissões e acesso à API.</li>
+          <li>Todos os campos necessários para criação da requisição virão da API do VExpenses ou serão tratados por tabela Z simples.</li>
+          <li>Dados contábeis, grupo de compras e demais informações de imputação serão fornecidos pelo VExpenses/Airela.</li>
+          <li>O material padrão a ser utilizado na requisição já estará cadastrado no SAP MM.</li>
+          <li>O fluxo de aprovação seguirá a estratégia de liberação já existente no SAP.</li>
+          <li>O log será simples, com foco em status de processamento, mensagens de erro e reprocessamento manual.</li>
+          <li>A Airela disponibilizará usuários-chave para validação funcional, testes integrados e homologação.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>9. Fora de escopo</h2>
+        <ul>
+          <li>Implantação de PI/PO, CPI, BTP Integration Suite ou qualquer middleware.</li>
+          <li>Configurações FI/CO.</li>
+          <li>Alterações na estratégia de liberação do SAP.</li>
+          <li>Criação automática de pedido de compra.</li>
+          <li>Lançamentos financeiros ou contábeis.</li>
+          <li>Retorno de status ou número da requisição para o VExpenses.</li>
+          <li>Anexação de comprovantes no SAP.</li>
+          <li>Alterações na plataforma VExpenses.</li>
+          <li>Alterações em cadastros mestres.</li>
+          <li>Cockpit avançado de monitoramento.</li>
+          <li>Suporte recorrente após go-live.</li>
+          <li>Mudanças futuras na API, layout, regras ou campos do VExpenses.</li>
+          <li>Regras adicionais não mapeadas na etapa de especificação funcional.</li>
+        </ul>
+      </section>
+
+      <section class="no-break">
+        <h2>10. Critério de aceite</h2>
+        <p>A entrega será considerada aceita quando uma despesa/prestação de contas aprovada no VExpenses gerar automaticamente no SAP ECC uma <strong>requisição de compra por colaborador/viagem</strong>, com seus respectivos itens, registro de log simples e possibilidade de reprocessamento manual em caso de erro.</p>
+      </section>
+
+      <section class="no-break">
+        <h2>11. Investimento</h2>
+        <div class="investment">
+          <div>
+            <p>O investimento contempla as atividades descritas nesta proposta, considerando execução remota, escopo fechado e premissas técnicas estabelecidas.</p>
+            <p>Alterações de escopo, novas regras, mudanças na API do VExpenses ou solicitações adicionais deverão ser avaliadas separadamente.</p>
+          </div>
+          <div class="price-box">
+            <div class="price-label">Valor total do projeto</div>
+            <div class="price">R$ 28.000,00</div>
+            <div class="price-note">Valor fechado para o escopo descrito nesta proposta.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="no-break">
+        <h2>12. Condição de pagamento</h2>
+        <table>
+          <thead><tr><th>Parcela</th><th>Marco</th><th>Percentual</th><th>Valor</th></tr></thead>
+          <tbody>
+            <tr><td>1ª parcela</td><td>Aprovação da proposta / início do projeto</td><td>30%</td><td>R$ 8.400,00</td></tr>
+            <tr><td>2ª parcela</td><td>Entrega da integração para homologação</td><td>40%</td><td>R$ 11.200,00</td></tr>
+            <tr><td>3ª parcela</td><td>Aceite final / go-live assistido</td><td>30%</td><td>R$ 8.400,00</td></tr>
+          </tbody>
+        </table>
+        <p class="small"><strong>Prazo de pagamento:</strong> até 15 dias após a emissão da respectiva nota fiscal, conforme o marco de faturamento aplicável.</p>
+      </section>
+
+      <section class="no-break">
+        <h2>13. Validade da proposta</h2>
+        <p>Esta proposta tem validade de <strong>15 dias</strong> a partir da data de envio.</p>
+      </section>
+
+      <section class="signature no-break">
+        <h2>14. Encerramento</h2>
+        <p>A Friend Consulting coloca-se à disposição para apoiar a Airela nesta iniciativa, combinando conhecimento em SAP ECC, integrações e desenho funcional/técnico orientado à operação.</p>
+        <p class="small">Friend Consulting — Consultoria SAP, integrações e tecnologia aplicada à gestão empresarial.</p>
+      </section>
+    </main>
+
+    <div class="footer">
+      <strong>Friend Consulting</strong><br />
+      Proposta comercial para integração VExpenses x SAP ECC — documento preparado para a Airela.
+    </div>
+  </div>
+</body>
+</html>
