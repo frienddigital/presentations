@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hayamax | Proposta Friend Consulting</title>
+  <style>
+    :root {
+      --primary: #1f3a5f;
+      --secondary: #2f6f8f;
+      --accent: #e8f1f6;
+      --text: #1f2933;
+      --muted: #5f6c7b;
+      --border: #d7dde5;
+      --light: #f7f9fb;
+      --white: #ffffff;
+      --shadow: 0 12px 35px rgba(0,0,0,0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eef2f5;
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(180deg, #eef2f5 0%, #dde5eb 100%);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      padding: 34px;
+    }
+
+    .slide.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page {
+      width: min(1280px, 94vw);
+      height: min(720px, 90vh);
+      background: white;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-inner {
+      padding: 34px 42px 28px;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cover {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      position: relative;
+    }
+
+    .cover .page-inner {
+      justify-content: space-between;
+      padding: 42px 48px 38px;
+    }
+
+    .logo-box {
+      position: absolute;
+      top: 34px;
+      right: 42px;
+      background: rgba(255,255,255,0.95);
+      padding: 10px 14px;
+      border-radius: 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-box img {
+      width: 165px;
+      height: auto;
+      display: block;
+    }
+
+    .eyebrow {
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      opacity: 0.95;
+    }
+
+    .cover h1 {
+      margin: 22px 0 12px;
+      font-size: 42px;
+      line-height: 1.1;
+      max-width: 760px;
+    }
+
+    .cover .subtitle {
+      font-size: 21px;
+      line-height: 1.35;
+      max-width: 790px;
+      opacity: 0.98;
+    }
+
+    .cover-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px 24px;
+      font-size: 15px;
+      margin-top: 28px;
+      max-width: 760px;
+    }
+
+    .cover-meta strong {
+      display: inline-block;
+      min-width: 96px;
+      opacity: 0.88;
+    }
+
+    .section-title {
+      color: var(--primary);
+      font-size: 28px;
+      font-weight: 800;
+      margin: 0 0 8px;
+    }
+
+    .section-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      margin: 0 0 20px;
+    }
+
+    .content-grid-2 {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 20px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .content-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: white;
+      padding: 18px 18px 14px;
+    }
+
+    .accent {
+      background: var(--accent);
+      border-color: #cfe0ea;
+    }
+
+    .soft {
+      background: var(--light);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      color: var(--secondary);
+      font-size: 18px;
+    }
+
+    .card p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 7px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    th {
+      background: var(--primary);
+      color: white;
+      text-align: left;
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+
+    td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      vertical-align: top;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    tr:nth-child(even) td {
+      background: var(--light);
+    }
+
+    .highlight {
+      background: var(--accent);
+      border-left: 5px solid var(--secondary);
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #edf5f9;
+      border: 1px solid #c9dde8;
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 700;
+      margin: 2px 4px 2px 0;
+    }
+
+    .price-box {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 180px;
+    }
+
+    .price-box .label {
+      font-size: 16px;
+      opacity: 0.92;
+    }
+
+    .price-box .price {
+      font-size: 44px;
+      font-weight: 800;
+      margin: 8px 0;
+    }
+
+    .price-box .note {
+      font-size: 14px;
+      line-height: 1.4;
+      opacity: 0.96;
+    }
+
+    .profile-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-head {
+      background: var(--primary);
+      color: white;
+      padding: 14px 16px;
+    }
+
+    .profile-head strong {
+      display: block;
+      font-size: 16px;
+    }
+
+    .profile-head span {
+      font-size: 12px;
+      opacity: 0.92;
+    }
+
+    .profile-body {
+      padding: 14px 16px;
+      font-size: 13px;
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .profile-body p {
+      margin: 0 0 8px;
+    }
+
+
+    .score-pill {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.28);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .score-note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+
+    .footer-note {
+      margin-top: auto;
+      color: var(--muted);
+      font-size: 12px;
+      padding-top: 10px;
+    }
+
+    .nav {
+      position: fixed;
+      right: 18px;
+      bottom: 14px;
+      left: auto;
+      transform: none;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(20, 30, 40, 0.72);
+      color: white;
+      padding: 6px 8px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.16);
+      z-index: 20;
+      opacity: 0.82;
+    }
+
+    .nav button {
+      border: none;
+      background: white;
+      color: var(--primary);
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .nav button:hover {
+      background: #f0f4f7;
+    }
+
+    .counter {
+      font-size: 12px;
+      min-width: 48px;
+      text-align: center;
+    }
+
+    @media (max-width: 1100px) {
+      .content-grid-2, .content-grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .page {
+        height: min(820px, 92vh);
+      }
+      .logo-box img {
+        width: 120px;
+      }
+      .cover h1 {
+        font-size: 34px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+
+    <section class="slide active">
+      <div class="page cover">
+        <div class="logo-box">
+          <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QA6RXhpZgAATU0AKgAAAAgAA1EQAAEAAAABAQAAAFERAAQAAAABAAAOxFESAAQAAAABAAAOxAAAAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcGBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAD6APoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo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" alt="Friend Consulting logo" />
+        </div>
+        <div class="page-inner">
+          <div>
+            <div class="eyebrow">Friend Consulting</div>
+            <h1>Proposta Comercial<br>Alocação Consultiva SAP FI Sênior</h1>
+            <div class="subtitle">
+              Modelo T&amp;M remoto para estruturação organizacional, financeira e bancária em ambiente SAP.
+            </div>
+          </div>
+          <div class="cover-meta">
+            <div><strong>Cliente:</strong> Hayamax Distribuidora</div>
+            <div><strong>Contato:</strong> Douglas Buzzo</div>
+            <div><strong>Fornecedor:</strong> Friend Consulting</div>
+            <div><strong>Data:</strong> 22/05/2026</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="page">
+        <div class="page-inner">
+          <h2 class="section-title">1. Resumo Executivo</h2>
+          <p class="section-subtitle">Visão objetiva da proposta e do valor agregado da Friend.</p>
+          <div class="content-grid-2">
+            <div class="card accent">
+              <h3>O que estamos propondo</h3>
+              <p>
+                A Friend Consulting propõe à Hayamax a alocação consultiva de um <strong>Consultor SAP FI Sênior</strong>,
+                em modelo <strong>T&amp;M remoto</strong>, para apoiar a criação de uma nova estrutura organizacional e
+                financeira em ambiente SAP.
+              </p>
+              <p>
+                A demanda contempla estruturação de SAP FI, integração bancária, suporte à apuração de resultado
+                e alinhamento com uma operação com características de holding.
+              </p>
+            </div>
+            <div class="card">
+              <h3>Como agregamos valor</h3>
+              <ul>
+                <li>Curadoria técnica dos profissionais.</li>
+                <li>Profissionais já mapeados para entrevista.</li>
+                <li>Gestão e acompanhamento da alocação.</li>
+                <li>Uso de IA como apoio à triagem e análise de aderência.</li>
+                <li>Atuação flexível, remota e orientada a resultado.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-note">Mensagem-chave: não é body shop puro; é alocação consultiva com curadoria, acompanhamento e velocidade.</div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="slide">
+      <div class="page">
+        <div class="page-inner">
+          <h2 class="section-title">2. Credenciais da Friend em Alocação e Gestão SAP</h2>
+          <p class="section-subtitle">Experiência prática em alocação, gestão de especialistas, projetos SAP e frentes de sustentação/melhoria.</p>
+          <div class="content-grid-2">
+            <div class="card accent">
+              <h3>Experiência aplicável ao cenário Hayamax</h3>
+              <ul>
+                <li>Alocação e gestão de consultores SAP funcionais e técnicos em frentes críticas.</li>
+                <li>Especialistas em módulos FI, CO, MM, SD, TRM, PP, WM, EWM e APO.</li>
+                <li>Perfis técnicos em ABAP, Fiori, PI/PO/CPI, GRC, Basis e gestão de projetos.</li>
+                <li>Atuação em suporte, melhorias, integrações, rollouts e migrações SAP.</li>
+                <li>Gestão próxima do profissional alocado, com acompanhamento da entrega e alinhamento com o cliente.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Cases e frentes relacionadas</h3>
+              <ul>
+                <li><strong>Projetos com grandes consultorias:</strong> implementação, rollout e migração S/4HANA em clientes como Inbev, MSD, Amil, 3 Corações, Hapvida, Unimed, Tim, Hospital Care e White Martins.</li>
+                <li><strong>Ecorodovias:</strong> alocação e gestão de consultor SAP FI e gestor de projetos para suporte e melhoria.</li>
+                <li><strong>Braskem:</strong> desenvolvimento de relatórios financeiros com profissionais funcionais e ABAP.</li>
+                <li><strong>FS Biodiesel:</strong> integrações e melhorias entre COUPA e SAP.</li>
+                <li><strong>Grant Thornton:</strong> aplicação ABAP para extração de dados contábeis e suporte a auditoria.</li>
+                <li><strong>Orleans Tur / Prati Donaduzzi:</strong> transformação digital em gestão de viagens corporativas.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight">
+            Para a Hayamax, essa experiência se traduz em uma proposta simples: especialista certo, modelo flexível, acompanhamento próximo e capacidade de ajuste rápido caso o projeto exija.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="page">
+        <div class="page-inner">
+          <h2 class="section-title">3. Contexto e Entendimento da Demanda</h2>
+          <p class="section-subtitle">O cenário identificado na reunião inicial com a Hayamax.</p>
+          <div class="content-grid-2">
+            <div class="card">
+              <h3>Contexto do cliente</h3>
+              <p>
+                A Hayamax pretende estruturar um <strong>novo ambiente SAP</strong>, contemplando a criação de uma nova
+                estrutura organizacional em <strong>SAP FI</strong>, com integração bancária e suporte ao processamento
+                de operações financeiras e apuração de resultado.
+              </p>
+              <p>
+                O modelo possui características semelhantes a uma <strong>holding</strong>, exigindo solidez no desenho
+                funcional e na estruturação financeira.
+              </p>
+            </div>
+            <div class="card soft">
+              <h3>Entendimento da Friend</h3>
+              <ul>
+                <li>Demanda exige perfil SAP FI de implementação, não apenas suporte.</li>
+                <li>Definições estruturais precisam nascer corretamente.</li>
+                <li>Integração bancária é uma frente relevante do escopo.</li>
+                <li>Conhecimento em FI/CO agrega valor à apuração de resultado.</li>
+                <li>Formato remoto e flexível é aderente ao projeto.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight">
+            O trabalho exige um consultor capaz de apoiar desde as definições funcionais iniciais até parametrizações, testes e decisões de desenho financeiro.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="page">
+        <div class="page-inner">
+          <h2 class="section-title">4. Escopo Técnico e Atividades Iniciais</h2>
+          <p class="section-subtitle">Principais requisitos técnicos e frentes previstas para o início da atuação.</p>
+          <div class="content-grid-2">
+            <div class="card">
+              <h3>Requisitos técnicos do escopo</h3>
+              <table>
+                <tr><th>Requisito</th><th>Aplicação</th></tr>
+                <tr><td>Estrutura organizacional SAP FI</td><td>Definição e parametrização dos elementos financeiros.</td></tr>
+                <tr><td>Company Code / Empresa</td><td>Criação ou adequação das unidades financeiras.</td></tr>
+                <tr><td>Plano de contas</td><td>Definição ou adequação para suportar a operação.</td></tr>
+                <tr><td>GL / AP / AR</td><td>Parametrização dos processos financeiros principais.</td></tr>
+                <tr><td>Integração bancária</td><td>Pagamentos, cobranças, extratos e conciliação.</td></tr>
+                <tr><td>FI/CO</td><td>Apoio à integração com apuração de resultado.</td></tr>
+              </table>
+            </div>
+            <div class="card">
+              <h3>Atividades iniciais previstas</h3>
+              <ul>
+                <li>Definição da estrutura organizacional SAP FI.</li>
+                <li>Criação e parametrização de empresas/sociedades.</li>
+                <li>Apoio ao desenho do plano de contas.</li>
+                <li>Configuração de processos financeiros.</li>
+                <li>Configuração e validação da integração bancária.</li>
+                <li>Apoio a testes, validações e documentação funcional.</li>
+                <li>Participação em reuniões e alinhamentos técnicos.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="page">
+        <div class="page-inner">
+          <h2 class="section-title">5. Modelo de Atuação e Diferenciais</h2>
+          <p class="section-subtitle">Como a Friend conduzirá a alocação consultiva.</p>
+          <div class="content-grid-2">
+            <div class="card accent">
+              <h3>Modelo operacional</h3>
+              <ul>
+                <li>Contratação em modelo <strong>Time &amp; Material</strong>.</li>
+                <li>Atuação <strong>remota</strong>, com horários flexíveis.</li>
+                <li>Apontamento mensal de horas.</li>
+                <li>Aprovação até o 5º dia útil do mês subsequente.</li>
+                <li>Pagamento em 30 dias após aprovação das horas.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Diferenciais da Friend</h3>
+              <ul>
+                <li>Curadoria técnica dos profissionais.</li>
+                <li>Acompanhamento da atuação pela Friend.</li>
+                <li>Se houver necessidade de substituição, apresentação de alternativa em até 3 dias úteis.</li>
+                <li>Uso responsável de IA na análise de aderência dos perfis.</li>
+                <li>Flexibilidade sem perder controle e governança.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight">
+            A proposta combina senioridade, agilidade na mobilização e acompanhamento próximo — reduzindo o risco de uma contratação desalinhada ao escopo.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="page">
+        <div class="page-inner">
+          <h2 class="section-title">6. Profissionais Mapeados — Aderência ao Escopo</h2>
+          <p class="section-subtitle">Perfis apresentados de forma anonimizada para ilustrar a aderência técnica já identificada.</p>
+          <div class="content-grid-3">
+            <div class="profile-card">
+              <div class="profile-head">
+                <strong>Perfil A — G.R.</strong>
+                <span>FI Sênior | Estrutura societária e holding</span><div class="score-pill">Aderência: Alta — 9,5 / 11,5</div>
+              </div>
+              <div class="profile-body">
+                <p><strong>Experiência SAP FI:</strong> mais de 20 anos.</p>
+                <p><strong>Destaques:</strong> projetos SAP FI full, upgrades, rollouts e liderança da frente financeira.</p>
+                <p><strong>Aderência:</strong> cenários de holding societária, SCP, cisão de empresas e incorporações.</p>
+                <div>
+                  <span class="tag">SAP FI Full</span>
+                  <span class="tag">Holding</span>
+                  <span class="tag">Cisão/Incorporação</span>
+                  <span class="tag">GL</span>
+                  <span class="tag">S/4HANA</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-card">
+              <div class="profile-head">
+                <strong>Perfil B — M.K.</strong>
+                <span>FI Sênior | Estrutura organizacional</span><div class="score-pill">Aderência: Alta — 8,5 / 11,5</div>
+              </div>
+              <div class="profile-body">
+                <p><strong>Experiência SAP FI:</strong> mais de 20 anos.</p>
+                <p><strong>Destaques:</strong> company code, business place, plano de contas e estrutura organizacional.</p>
+                <p><strong>Aderência:</strong> rollouts, projetos globais, testes, UAT, suporte pós-go-live e S/4HANA Finance.</p>
+                <div>
+                  <span class="tag">Company Code</span>
+                  <span class="tag">Business Place</span>
+                  <span class="tag">Plano de Contas</span>
+                  <span class="tag">AR</span>
+                  <span class="tag">Inglês Avançado</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-card">
+              <div class="profile-head">
+                <strong>Perfil C — M.T.</strong>
+                <span>FI / CLM / TRM | Bancos e Cash Management</span><div class="score-pill">Aderência: Complementar — 7,0 / 11,5</div>
+              </div>
+              <div class="profile-body">
+                <p><strong>Experiência SAP FI/FSCM:</strong> mais de 16 anos.</p>
+                <p><strong>Destaques:</strong> integração bancária, DMEX, pagamentos, cobranças, extratos e fluxo de caixa.</p>
+                <p><strong>Aderência:</strong> FI/GL, BCM, cash management, Fiori e processos financeiros integrados.</p>
+                <div>
+                  <span class="tag">Bancos</span>
+                  <span class="tag">DMEX</span>
+                  <span class="tag">Cash Management</span>
+                  <span class="tag">FSCM</span>
+                  <span class="tag">S/4HANA</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer-note">Aderência calculada por pesos gerenciais: estrutura organizacional FI, implementação/rollout e holding têm maior peso; integração bancária, FI/CO, disponibilidade e histórico com a Friend complementam a avaliação. Após aprovação comercial, os currículos completos poderão ser compartilhados para entrevista e validação pela Hayamax.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="page">
+        <div class="page-inner">
+          <h2 class="section-title">7. Uso de IA no Processo de Seleção Técnica</h2>
+          <p class="section-subtitle">Como a Friend utilizou IA como apoio à triagem técnica e análise de aderência.</p>
+          <div class="content-grid-2">
+            <div class="card">
+              <h3>Aplicações práticas</h3>
+              <table>
+                <tr><th>Dimensão</th><th>Aplicação</th></tr>
+                <tr><td>Aderência técnica</td><td>Cruzamento ponderado entre requisitos do projeto e experiências declaradas, priorizando estrutura organizacional FI, implementação/rollout e cenário de holding.</td></tr>
+                <tr><td>Experiência de implementação</td><td>Identificação de histórico em full, rollout, migração e parametrização.</td></tr>
+                <tr><td>Riscos do perfil</td><td>Separação entre perfis estruturais e perfis mais focados em AMS/suporte.</td></tr>
+                <tr><td>Disponibilidade</td><td>Análise da disponibilidade declarada para atuação remota e flexível.</td></tr>
+                <tr><td>Complementaridade</td><td>Identificação de forças complementares entre os perfis.</td></tr>
+              </table>
+            </div>
+            <div class="card accent">
+              <h3>Mensagem importante</h3>
+              <p>
+                A IA foi utilizada como <strong>apoio à análise</strong>, e não como substituição da avaliação consultiva.
+              </p>
+              <p>
+                A decisão final considera experiência prática, senioridade, aderência ao escopo, disponibilidade e
+                validação em entrevista pela Hayamax.
+              </p>
+              <div class="highlight">
+                Isso mostra uma Friend atualizada no uso de tecnologia, mas com julgamento humano e responsabilidade na decisão.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="page">
+        <div class="page-inner">
+          <h2 class="section-title">8. Investimento e Condições Comerciais</h2>
+          <p class="section-subtitle">Condição comercial proposta para a alocação consultiva.</p>
+          <div class="content-grid-2">
+            <div class="price-box">
+              <div class="label">Consultor SAP FI Sênior — T&amp;M Remoto</div>
+              <div class="price">R$ 220,00/h</div>
+              <div class="note">
+                Valor hora com impostos contemplados, incluindo curadoria, seleção prévia,
+                acompanhamento da atuação e gestão comercial/administrativa pela Friend Consulting.
+              </div>
+            </div>
+            <div class="card">
+              <h3>Condições comerciais</h3>
+              <ul>
+                <li>Faturamento mensal conforme horas aprovadas.</li>
+                <li>Pagamento em 30 dias após aprovação do relatório mensal.</li>
+                <li>Atuação prevista integralmente de forma remota.</li>
+                <li>Qualquer visita pontual deverá ser previamente alinhada.</li>
+                <li>Despesas de deslocamento, hospedagem e alimentação, se houver visita, serão de responsabilidade da Hayamax.</li>
+                <li>Validade da proposta: 10 dias corridos.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-note">O valor contempla também suporte na substituição do profissional, caso necessário, com SLA de apresentação de alternativa em até 3 dias úteis.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="page">
+        <div class="page-inner">
+          <h2 class="section-title">9. Próximos Passos</h2>
+          <p class="section-subtitle">Fluxo sugerido após aprovação da proposta.</p>
+          <div class="content-grid-2">
+            <div class="card">
+              <h3>Próximas etapas</h3>
+              <table>
+                <tr><th>Etapa</th><th>Responsável</th></tr>
+                <tr><td>Aprovação comercial da proposta</td><td>Hayamax</td></tr>
+                <tr><td>Apresentação dos consultores mapeados</td><td>Friend Consulting</td></tr>
+                <tr><td>Entrevistas técnicas dos candidatos</td><td>Hayamax / Friend</td></tr>
+                <tr><td>Escolha do consultor</td><td>Hayamax</td></tr>
+                <tr><td>Alinhamento de disponibilidade</td><td>Hayamax / Friend / Consultor</td></tr>
+                <tr><td>Início da atuação</td><td>Conforme acordo entre as partes</td></tr>
+              </table>
+            </div>
+            <div class="card accent">
+              <h3>Fechamento</h3>
+              <p>
+                A Friend Consulting entende que a criação da nova estrutura financeira SAP da Hayamax exige
+                senioridade, pragmatismo e segurança técnica.
+              </p>
+              <p>
+                Por isso, propomos uma atuação consultiva, flexível e orientada a resultado, com profissional
+                SAP FI sênior previamente selecionado e validado.
+              </p>
+              <p><strong>Objetivo final:</strong> permitir que a Hayamax avance com velocidade, controle e menor risco técnico.</p>
+            </div>
+          </div>
+          <div class="footer-note">Friend Consulting | Consultoria SAP | Alocação de Especialistas | Projetos e Melhorias</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="nav">
+      <button id="prevBtn" aria-label="Página anterior">‹</button>
+      <div class="counter"><span id="current">1</span> / <span id="total">8</span></div>
+      <button id="nextBtn" aria-label="Próxima página">›</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const currentEl = document.getElementById('current');
+    const totalEl = document.getElementById('total');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let index = 0;
+
+    totalEl.textContent = slides.length;
+
+    function render() {
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+      currentEl.textContent = index + 1;
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === slides.length - 1;
+      const params = new URLSearchParams(window.location.search);
+      params.set('slide', index + 1);
+      const newUrl = `${window.location.pathname}?${params.toString()}`;
+      history.replaceState(null, '', newUrl);
+    }
+
+    function nextSlide() {
+      if (index < slides.length - 1) {
+        index += 1;
+        render();
+      }
+    }
+
+    function prevSlide() {
+      if (index > 0) {
+        index -= 1;
+        render();
+      }
+    }
+
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+    });
+
+    const initial = parseInt(new URLSearchParams(window.location.search).get('slide'), 10);
+    if (!isNaN(initial) && initial >= 1 && initial <= slides.length) {
+      index = initial - 1;
+    }
+    render();
+  </script>
+</body>
+</html>
