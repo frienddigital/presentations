@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proposta Comercial - Hayamax Distribuidora | Friend Consulting</title>
+  <style>
+    :root {
+      --primary: #1f3a5f;
+      --secondary: #2f6f8f;
+      --accent: #e8f1f6;
+      --text: #1f2933;
+      --muted: #5f6c7b;
+      --border: #d7dde5;
+      --light: #f7f9fb;
+      --white: #ffffff;
+      --success: #e9f7ef;
+      --warning: #fff4df;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: #eef2f5;
+      line-height: 1.55;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 24px auto;
+      background: var(--white);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      padding: 0;
+    }
+
+    .cover {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 56px 58px 48px;
+      min-height: 270px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-size: 15px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.95;
+      font-weight: 700;
+    }
+
+    .cover h1 {
+      font-size: 34px;
+      line-height: 1.15;
+      margin: 34px 0 14px;
+      max-width: 760px;
+    }
+
+    .cover .subtitle {
+      font-size: 18px;
+      max-width: 760px;
+      opacity: 0.95;
+    }
+
+    .cover-meta {
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 28px;
+      font-size: 14px;
+    }
+
+    .cover-meta strong {
+      display: inline-block;
+      min-width: 92px;
+      opacity: 0.85;
+    }
+
+    .content { padding: 42px 58px 58px; }
+
+    h2 {
+      color: var(--primary);
+      font-size: 22px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin: 34px 0 14px;
+    }
+
+    h2:first-child { margin-top: 0; }
+
+    h3 {
+      color: var(--secondary);
+      font-size: 17px;
+      margin: 24px 0 8px;
+    }
+
+    p { margin: 0 0 12px; }
+
+    .highlight-box {
+      background: var(--accent);
+      border-left: 5px solid var(--secondary);
+      padding: 18px 20px;
+      margin: 18px 0;
+      border-radius: 6px;
+    }
+
+    .executive-box {
+      background: #f6fbfd;
+      border: 1px solid #cfe3ec;
+      border-radius: 12px;
+      padding: 22px 24px;
+      margin: 18px 0 28px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0 28px;
+      font-size: 14px;
+    }
+
+    th {
+      background: var(--primary);
+      color: white;
+      text-align: left;
+      padding: 11px 12px;
+      font-weight: 700;
+    }
+
+    td {
+      border: 1px solid var(--border);
+      padding: 11px 12px;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td { background: var(--light); }
+
+    .investment {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 20px 0 30px;
+    }
+
+    .investment-header {
+      background: var(--primary);
+      color: white;
+      padding: 16px 20px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .investment-body {
+      padding: 22px 24px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      background: var(--white);
+    }
+
+    .price {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--secondary);
+      white-space: nowrap;
+    }
+
+    ul { margin: 8px 0 18px 22px; padding: 0; }
+    li { margin-bottom: 6px; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin: 18px 0 26px;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin: 18px 0 30px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 18px 14px;
+      background: var(--white);
+    }
+
+    .card h3 { margin-top: 0; }
+
+    .profile-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--white);
+      overflow: hidden;
+    }
+
+    .profile-head {
+      background: var(--primary);
+      color: white;
+      padding: 14px 16px;
+    }
+
+    .profile-head strong {
+      display: block;
+      font-size: 16px;
+    }
+
+    .profile-head span {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .profile-body {
+      padding: 16px;
+      font-size: 13.5px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--primary);
+      border: 1px solid #c9dde8;
+      border-radius: 999px;
+      padding: 4px 9px;
+      margin: 3px 3px 3px 0;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 18px 0 28px;
+    }
+
+    .risk-card {
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      font-size: 13.5px;
+    }
+
+    .risk-card.good { background: var(--success); }
+    .risk-card.control { background: var(--accent); }
+    .risk-card.attention { background: var(--warning); }
+
+    .footer {
+      margin-top: 44px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .signature {
+      margin-top: 34px;
+      background: var(--light);
+      padding: 18px 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    @media print {
+      body { background: white; }
+      .page {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        box-shadow: none;
+      }
+      .cover, th, .investment-header, .profile-head, tr:nth-child(even) td {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .page { width: 100%; margin: 0; }
+      .cover, .content { padding-left: 28px; padding-right: 28px; }
+      .cover-meta, .two-col, .three-col, .risk-grid, .investment-body {
+        grid-template-columns: 1fr;
+      }
+      .price { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="cover">
+      <div>
+        <div class="brand">Friend Consulting</div>
+        <h1>Proposta Comercial<br>Alocação Consultiva SAP FI Sênior</h1>
+        <div class="subtitle">
+          Modelo T&amp;M remoto para estruturação organizacional, financeira e bancária em ambiente SAP.
+        </div>
+      </div>
+      <div class="cover-meta">
+        <div><strong>Cliente:</strong> Hayamax Distribuidora</div>
+        <div><strong>Contato:</strong> Douglas Buzzo</div>
+        <div><strong>Fornecedor:</strong> Friend Consulting</div>
+        <div><strong>Data:</strong> 22/05/2026</div>
+      </div>
+    </section>
+
+    <section class="content">
+      <h2>1. Resumo Executivo</h2>
+      <div class="executive-box">
+        <p>
+          A Friend Consulting propõe à Hayamax a alocação consultiva de um <strong>Consultor SAP FI Sênior</strong>,
+          em modelo <strong>T&amp;M remoto</strong>, para apoiar a criação de uma nova estrutura organizacional e financeira
+          em ambiente SAP.
+        </p>
+        <p>
+          A demanda contempla estruturação de SAP FI, integração bancária, suporte à apuração de resultado e alinhamento
+          com uma operação com características de holding.
+        </p>
+        <p>
+          Além da proposta comercial, a Friend já realizou o mapeamento de profissionais aderentes ao escopo,
+          combinando avaliação técnica, análise de disponibilidade e apoio de IA para cruzamento de requisitos,
+          riscos e aderência dos perfis.
+        </p>
+      </div>
+
+      <h2>2. Apresentação da Friend Consulting</h2>
+      <p>
+        A <strong>Friend Consulting</strong> é uma consultoria especializada em serviços SAP, com atuação em projetos,
+        melhorias, suporte, integrações, alocação de profissionais especializados e assessoria técnica para empresas
+        que utilizam ambientes SAP.
+      </p>
+      <p>
+        Nossa atuação combina <strong>senioridade técnica, proximidade na gestão e flexibilidade operacional</strong>,
+        permitindo apoiar clientes em demandas específicas, projetos pontuais ou frentes de sustentação e evolução
+        de seus ambientes SAP.
+      </p>
+      <p>
+        Para esta demanda, a Friend propõe a alocação consultiva de um <strong>Consultor SAP FI Sênior</strong>,
+        em modelo <strong>T&amp;M</strong>, com atuação remota, flexível e orientada a resultados.
+      </p>
+
+      <h2>3. Contexto do Cliente</h2>
+      <p>
+        A Hayamax é uma empresa tradicional no mercado de distribuição, com atuação em produtos de informática,
+        gamer, instrumentos musicais, som profissional, eletrônicos e outros segmentos.
+      </p>
+      <p>
+        Na reunião inicial, foi identificado que a Hayamax pretende estruturar um <strong>novo ambiente SAP</strong>,
+        contemplando a criação de uma nova estrutura organizacional em <strong>SAP FI</strong>, com integração bancária
+        e suporte ao processamento de operações financeiras e apuração de resultado, em um modelo com características
+        semelhantes a uma <strong>holding</strong>.
+      </p>
+
+      <h2>4. Entendimento da Demanda</h2>
+      <p>
+        A demanda apresentada envolve a alocação de um profissional SAP FI sênior para apoiar a Hayamax na construção
+        da nova estrutura financeira dentro do SAP.
+      </p>
+      <p>
+        O trabalho exige um perfil com experiência prática em <strong>implementação SAP FI</strong>, capaz de atuar
+        desde as definições funcionais iniciais até parametrizações, validações, testes e apoio às decisões de negócio.
+      </p>
+      <p>
+        O cenário exige atenção especial porque definições de estrutura organizacional financeira são fundacionais:
+        quando bem desenhadas, sustentam crescimento, governança e apuração de resultado. Quando mal desenhadas,
+        geram retrabalho, limitações de gestão e riscos de integração.
+      </p>
+
+      <h2>5. Valor Consultivo da Atuação</h2>
+      <p>
+        Esta proposta não se limita ao fornecimento de um profissional. A Friend atuará com curadoria técnica,
+        acompanhamento da alocação e apoio à condução inicial da frente SAP FI.
+      </p>
+
+      <div class="risk-grid">
+        <div class="risk-card good">
+          <strong>Senioridade aplicada</strong>
+          <p>Profissionais com experiência em implementação, rollout, estrutura organizacional e parametrização SAP FI.</p>
+        </div>
+        <div class="risk-card control">
+          <strong>Gestão e acompanhamento</strong>
+          <p>Modelo T&amp;M com apontamento de horas, priorização objetiva e acompanhamento comercial pela Friend.</p>
+        </div>
+        <div class="risk-card attention">
+          <strong>Continuidade da alocação</strong>
+          <p>Acompanhamento ativo da atuação e, se houver necessidade de substituição, apresentação de alternativa em SLA de até 3 dias úteis.</p>
+        </div>
+      </div>
+
+      <h2>6. Objetivo da Proposta</h2>
+      <p>
+        Disponibilizar à Hayamax um <strong>Consultor SAP FI Sênior</strong>, previamente mapeado e qualificado pela
+        Friend Consulting, para atuação em modelo <strong>Time &amp; Material</strong>, com foco na criação e parametrização
+        da nova estrutura organizacional financeira no ambiente SAP.
+      </p>
+      <p>
+        O objetivo é apoiar a Hayamax com senioridade técnica, flexibilidade e orientação prática para que a nova
+        estrutura seja construída com aderência ao negócio, governança e boas práticas SAP.
+      </p>
+
+      <h2>7. Perfil Profissional Proposto</h2>
+      <ul>
+        <li>Consultor SAP FI Sênior;</li>
+        <li>Experiência em implementação, rollout ou criação de novas estruturas no SAP;</li>
+        <li>Conhecimento em estrutura organizacional financeira;</li>
+        <li>Experiência em parametrização de FI;</li>
+        <li>Domínio de processos financeiros SAP;</li>
+        <li>Experiência em integração bancária;</li>
+        <li>Capacidade de interação com áreas de negócio e TI;</li>
+        <li>Visão consultiva para apoiar decisões de desenho funcional;</li>
+        <li>Conhecimento desejável em SAP CO, especialmente para integração com apuração de resultado e estruturas de controladoria.</li>
+      </ul>
+
+      <h2>8. Requisitos Técnicos do Escopo</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Requisito técnico</th>
+            <th>Aplicação esperada no projeto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Estrutura organizacional SAP FI</td>
+            <td>Definição e parametrização de elementos financeiros necessários ao novo ambiente.</td>
+          </tr>
+          <tr>
+            <td>Company Code / Empresa</td>
+            <td>Criação ou adequação das unidades financeiras que suportarão a operação da nova estrutura.</td>
+          </tr>
+          <tr>
+            <td>Business Place / Localização Brasil</td>
+            <td>Apoio às definições relacionadas à estrutura fiscal e operacional brasileira, quando aplicável.</td>
+          </tr>
+          <tr>
+            <td>Plano de contas</td>
+            <td>Definição, revisão ou adequação do plano de contas para suportar operações financeiras e apuração de resultado.</td>
+          </tr>
+          <tr>
+            <td>GL / AP / AR</td>
+            <td>Parametrização de razão, contas a pagar e contas a receber conforme necessidade da nova estrutura.</td>
+          </tr>
+          <tr>
+            <td>Integração bancária</td>
+            <td>Configuração e validação de processos de pagamentos, cobranças, extratos e conciliação bancária.</td>
+          </tr>
+          <tr>
+            <td>FI/CO</td>
+            <td>Apoio às definições de integração entre estrutura financeira e apuração de resultado/controladoria.</td>
+          </tr>
+          <tr>
+            <td>Testes e documentação</td>
+            <td>Preparação de cenários, apoio a testes integrados e documentação funcional mínima para governança.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>9. Atividades Iniciais Previstas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Frente</th>
+            <th>Atividades Previstas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Estrutura organizacional SAP FI</td>
+            <td>Apoio na definição e configuração da estrutura organizacional financeira no novo ambiente SAP.</td>
+          </tr>
+          <tr>
+            <td>Empresas / sociedades</td>
+            <td>Criação e parametrização de estruturas financeiras necessárias ao novo modelo operacional.</td>
+          </tr>
+          <tr>
+            <td>Plano de contas</td>
+            <td>Apoio à definição, revisão ou adequação do plano de contas aplicável à nova estrutura.</td>
+          </tr>
+          <tr>
+            <td>Processos financeiros</td>
+            <td>Configuração e orientação sobre processos financeiros relacionados à nova estrutura.</td>
+          </tr>
+          <tr>
+            <td>Integração bancária</td>
+            <td>Apoio à configuração e validação dos processos de integração bancária.</td>
+          </tr>
+          <tr>
+            <td>Apuração de resultado</td>
+            <td>Apoio às definições relacionadas à apuração financeira e integração com estruturas de controladoria.</td>
+          </tr>
+          <tr>
+            <td>FI/CO</td>
+            <td>Apoio consultivo na integração entre SAP FI e SAP CO, quando aplicável.</td>
+          </tr>
+          <tr>
+            <td>Testes e validações</td>
+            <td>Apoio em testes unitários, integrados e validações com usuários-chave.</td>
+          </tr>
+          <tr>
+            <td>Documentação</td>
+            <td>Elaboração ou apoio na documentação funcional necessária ao projeto.</td>
+          </tr>
+          <tr>
+            <td>Orientação técnica</td>
+            <td>Participação em reuniões, alinhamentos e recomendações de boas práticas SAP.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>10. Profissionais Mapeados — Aderência ao Escopo</h2>
+      <p>
+        A Friend Consulting já realizou o mapeamento inicial de consultores SAP FI sênior aderentes ao cenário apresentado.
+        Os profissionais abaixo são apresentados de forma anonimizada nesta proposta. Após aprovação comercial, os currículos
+        completos poderão ser compartilhados para entrevista e validação pela Hayamax.
+      </p>
+
+      <div class="three-col">
+        <div class="profile-card">
+          <div class="profile-head">
+            <strong>Perfil A — G.R.</strong>
+            <span>FI Sênior | Estrutura societária e holding</span>
+          </div>
+          <div class="profile-body">
+            <p><strong>Experiência SAP FI:</strong> mais de 20 anos atuando em projetos SAP FI, incluindo projetos full, upgrades, rollouts, melhorias e soluções locais.</p>
+            <p><strong>Aderência principal:</strong> liderança da frente financeira em cenários de holding societária, SCP, cisão de empresas e incorporações.</p>
+            <p><strong>Base funcional:</strong> GL, contas a pagar, contas a receber, fechamento, orçamento de caixa, ativo fixo, localização Brasil e estrutura financeira.</p>
+            <div>
+              <span class="tag">SAP FI Full</span>
+              <span class="tag">Holding</span>
+              <span class="tag">Cisão/Incorporação</span>
+              <span class="tag">GL</span>
+              <span class="tag">S/4HANA</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-head">
+            <strong>Perfil B — M.K.</strong>
+            <span>FI Sênior | Estrutura organizacional</span>
+          </div>
+          <div class="profile-body">
+            <p><strong>Experiência SAP FI:</strong> mais de 20 anos de experiência em SAP FI, com atuação em projetos globais, rollouts e ambientes internacionais.</p>
+            <p><strong>Aderência principal:</strong> criação de company code, business place, plano de contas e estrutura organizacional financeira.</p>
+            <p><strong>Base funcional:</strong> AR, desenho de processo, especificação funcional, testes, UAT, suporte pós-go-live, localização Brasil e S/4HANA Finance.</p>
+            <div>
+              <span class="tag">Company Code</span>
+              <span class="tag">Business Place</span>
+              <span class="tag">Plano de Contas</span>
+              <span class="tag">AR</span>
+              <span class="tag">Inglês Avançado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-head">
+            <strong>Perfil C — M.T.</strong>
+            <span>FI/CLM/TRM | Bancos e Cash Management</span>
+          </div>
+          <div class="profile-body">
+            <p><strong>Experiência SAP FI:</strong> mais de 16 anos em SAP FI/FSCM, com atuação em SAP ERP, HANA, implementações, rollouts, suporte e desenho de soluções.</p>
+            <p><strong>Aderência principal:</strong> integração bancária, DMEX, cobrança, pagamentos, extratos, conciliação bancária, fluxo de caixa e cash management.</p>
+            <p><strong>Base funcional:</strong> FI/GL, CLM, TRM, BCM, regras de validação/substituição, Fiori e processos financeiros integrados.</p>
+            <div>
+              <span class="tag">Bancos</span>
+              <span class="tag">DMEX</span>
+              <span class="tag">Cash Management</span>
+              <span class="tag">FSCM</span>
+              <span class="tag">S/4HANA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2>11. Uso de IA no Processo de Seleção Técnica</h2>
+      <p>
+        Para aumentar a qualidade da seleção dos profissionais, a Friend Consulting utilizou recursos de Inteligência Artificial
+        como apoio ao processo de triagem técnica, cruzando os requisitos do escopo com as informações declaradas nos currículos,
+        experiências profissionais e respostas complementares dos candidatos.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Dimensão analisada</th>
+            <th>Como foi aplicada na seleção</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Aderência técnica</td>
+            <td>Cruzamento entre requisitos do projeto e experiências declaradas em SAP FI, estrutura organizacional, bancos e FI/CO.</td>
+          </tr>
+          <tr>
+            <td>Experiência de implementação</td>
+            <td>Identificação de histórico em projetos full, greenfield, rollout, migração, desenho funcional e parametrização.</td>
+          </tr>
+          <tr>
+            <td>Riscos do perfil</td>
+            <td>Separação entre perfis com experiência estrutural de projeto e perfis mais voltados a suporte, AMS ou atividades pontuais.</td>
+          </tr>
+          <tr>
+            <td>Disponibilidade</td>
+            <td>Análise da disponibilidade declarada para atuação remota e flexível no modelo T&amp;M.</td>
+          </tr>
+          <tr>
+            <td>Complementaridade</td>
+            <td>Identificação de perfis com forças complementares: estrutura societária, estrutura organizacional FI e integração bancária.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="highlight-box">
+        A IA foi utilizada como apoio à análise e não como substituição da avaliação consultiva. A decisão final considera
+        experiência prática, senioridade, disponibilidade, aderência ao escopo e validação em entrevista pela Hayamax.
+      </div>
+
+      <h2>12. Modelo de Atuação</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Condição Proposta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Modelo de contratação</td>
+            <td>Time &amp; Material</td>
+          </tr>
+          <tr>
+            <td>Formato de atuação</td>
+            <td>Remoto</td>
+          </tr>
+          <tr>
+            <td>Horário de trabalho</td>
+            <td>Flexível, conforme alinhamento entre Hayamax, Friend e consultor.</td>
+          </tr>
+          <tr>
+            <td>Gestão das horas</td>
+            <td>Apontamento mensal de horas.</td>
+          </tr>
+          <tr>
+            <td>Aprovação das horas</td>
+            <td>Até o 5º dia útil do mês subsequente.</td>
+          </tr>
+          <tr>
+            <td>Faturamento</td>
+            <td>Mensal, conforme horas aprovadas.</td>
+          </tr>
+          <tr>
+            <td>Pagamento</td>
+            <td>30 dias após aprovação do relatório mensal de horas.</td>
+          </tr>
+          <tr>
+            <td>Gestão do profissional</td>
+            <td>Acompanhamento pela Friend Consulting.</td>
+          </tr>
+          <tr>
+            <td>Seleção final</td>
+            <td>Consultores apresentados pela Friend e entrevistados pela Hayamax.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>13. Processo de Seleção e Validação do Consultor</h2>
+      <p>
+        A Friend Consulting já iniciou o mapeamento de profissionais SAP FI sênior aderentes ao cenário apresentado pela Hayamax.
+      </p>
+      <p>
+        Após aprovação da presente proposta comercial, a Friend apresentará à Hayamax uma relação de profissionais previamente avaliados,
+        contendo currículo, experiência relevante, disponibilidade, aderência à demanda e pontos de atenção.
+      </p>
+      <p>
+        A Hayamax poderá entrevistar os profissionais indicados antes da escolha final. A alocação somente será iniciada após validação
+        conjunta entre Hayamax e Friend Consulting.
+      </p>
+
+      <h2>14. Investimento</h2>
+      <div class="investment">
+        <div class="investment-header">Consultor SAP FI Sênior — T&amp;M Remoto</div>
+        <div class="investment-body">
+          <div>
+            <p>
+              Valor hora para alocação consultiva de profissional SAP FI sênior, incluindo curadoria, seleção prévia,
+              acompanhamento da atuação e gestão comercial/administrativa pela Friend Consulting.
+            </p>
+          </div>
+          <div class="price">R$ 220,00/h</div>
+        </div>
+      </div>
+
+      <h3>O valor contempla</h3>
+      <ul>
+        <li>Curadoria e seleção prévia do profissional;</li>
+        <li>Alocação de consultor SAP FI sênior;</li>
+        <li>Gestão comercial e administrativa pela Friend Consulting;</li>
+        <li>Acompanhamento da atuação;</li>
+        <li>Uso de recursos de IA como apoio à triagem e análise de aderência dos perfis;</li>
+        <li>Suporte na substituição do profissional, caso necessário, com SLA de apresentação de alternativa em até 3 dias úteis;</li>
+        <li>Emissão mensal de relatório de horas;</li>
+        <li>Faturamento mensal conforme horas aprovadas;</li>
+        <li>Impostos incidentes sobre os serviços, já contemplados no valor hora apresentado.</li>
+      </ul>
+
+      <h2>15. Condições Comerciais</h2>
+      <ul>
+        <li>Faturamento mensal conforme horas efetivamente trabalhadas;</li>
+        <li>Relatório mensal de horas enviado para aprovação da Hayamax;</li>
+        <li>Aprovação do relatório de horas até o 5º dia útil do mês subsequente;</li>
+        <li>Pagamento em até 30 dias após aprovação do relatório de horas;</li>
+        <li>Atuação prevista integralmente de forma remota;</li>
+        <li>Horários flexíveis, previamente alinhados conforme necessidade do projeto;</li>
+        <li>Impostos contemplados no valor hora apresentado;</li>
+        <li>Qualquer necessidade de visita presencial pontual deverá ser previamente alinhada entre as partes;</li>
+        <li>Despesas de deslocamento, hospedagem, alimentação ou quaisquer custos relacionados a visitas presenciais serão de responsabilidade da Hayamax, mediante aprovação prévia;</li>
+        <li>A vigência da alocação será definida conforme necessidade do projeto e disponibilidade do profissional selecionado.</li>
+      </ul>
+
+      <h2>16. Premissas</h2>
+      <ul>
+        <li>A Hayamax disponibilizará os acessos necessários ao ambiente SAP;</li>
+        <li>A Hayamax indicará os responsáveis internos para validação funcional e técnica;</li>
+        <li>As decisões de negócio serão tomadas pelos responsáveis da Hayamax;</li>
+        <li>O consultor atuará de forma remota;</li>
+        <li>Visitas presenciais, caso necessárias, serão tratadas como exceção e dependerão de alinhamento prévio;</li>
+        <li>As atividades serão executadas conforme priorização acordada entre Hayamax, Friend e consultor;</li>
+        <li>O modelo T&amp;M não caracteriza escopo fechado;</li>
+        <li>Atividades adicionais fora do domínio SAP FI/FI-CO poderão demandar avaliação específica;</li>
+        <li>A disponibilidade do profissional será confirmada antes do início da alocação.</li>
+      </ul>
+
+      <h2>17. Responsabilidades</h2>
+      <div class="two-col">
+        <div class="card">
+          <h3>Friend Consulting</h3>
+          <ul>
+            <li>Selecionar e apresentar profissionais aderentes ao perfil solicitado;</li>
+            <li>Validar previamente senioridade, experiência e disponibilidade;</li>
+            <li>Apoiar o processo de entrevista e escolha do consultor;</li>
+            <li>Formalizar a alocação;</li>
+            <li>Realizar acompanhamento comercial e administrativo da prestação dos serviços;</li>
+            <li>Consolidar e encaminhar relatório mensal de horas;</li>
+            <li>Apoiar a Hayamax em eventuais ajustes de alocação;</li>
+            <li>Em caso de necessidade de substituição, apresentar alternativa em até 3 dias úteis, sujeita à disponibilidade de mercado e validação da Hayamax.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Hayamax</h3>
+          <ul>
+            <li>Entrevistar e validar o profissional indicado;</li>
+            <li>Disponibilizar acessos, informações e responsáveis internos;</li>
+            <li>Priorizar atividades e validar entregas;</li>
+            <li>Aprovar mensalmente o relatório de horas;</li>
+            <li>Comunicar eventuais ajustes de prioridade, disponibilidade ou escopo;</li>
+            <li>Efetuar os pagamentos conforme condições comerciais acordadas;</li>
+            <li>Responsabilizar-se por despesas previamente aprovadas em caso de visitas presenciais pontuais.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>18. Diferenciais da Friend Consulting</h2>
+      <p>
+        A Friend Consulting não atua apenas como repassadora de currículos. Nossa proposta combina curadoria técnica,
+        experiência prática em SAP, gestão próxima, flexibilidade, agilidade na mobilização, uso responsável de tecnologia
+        e foco em resultado.
+      </p>
+      <p>
+        Esse modelo reduz o risco da Hayamax na contratação de um profissional crítico para uma etapa sensível do projeto:
+        a construção da estrutura financeira no SAP.
+      </p>
+
+      <h2>19. Próximos Passos</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Etapa</th>
+            <th>Responsável</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Aprovação comercial da proposta</td>
+            <td>Hayamax</td>
+          </tr>
+          <tr>
+            <td>Apresentação dos consultores mapeados</td>
+            <td>Friend Consulting</td>
+          </tr>
+          <tr>
+            <td>Entrevistas técnicas dos candidatos</td>
+            <td>Hayamax / Friend</td>
+          </tr>
+          <tr>
+            <td>Escolha do consultor</td>
+            <td>Hayamax</td>
+          </tr>
+          <tr>
+            <td>Alinhamento de disponibilidade e agenda</td>
+            <td>Hayamax / Friend / Consultor</td>
+          </tr>
+          <tr>
+            <td>Início da atuação</td>
+            <td>Conforme acordo entre as partes</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>20. Validade da Proposta</h2>
+      <p>
+        Esta proposta é válida por <strong>10 dias corridos</strong>, considerando a disponibilidade dos profissionais mapeados
+        no momento da apresentação.
+      </p>
+
+      <h2>21. Considerações Finais</h2>
+      <p>
+        A Friend Consulting entende que a criação da nova estrutura financeira SAP da Hayamax exige senioridade,
+        pragmatismo e segurança técnica.
+      </p>
+      <p>
+        Por isso, propomos uma atuação consultiva, flexível e orientada a resultado, com profissional SAP FI sênior
+        previamente selecionado e validado, permitindo que a Hayamax avance com velocidade, controle e menor risco técnico.
+      </p>
+
+      <div class="signature">
+        <strong>Friend Consulting</strong><br>
+        Consultoria SAP | Alocação de Especialistas | Projetos e Melhorias
+      </div>
+
+      <div class="footer">
+        Documento preparado para apresentação comercial à Hayamax Distribuidora. As condições aqui descritas estão sujeitas à aprovação comercial e disponibilidade dos profissionais no momento da contratação.
+      </div>
+    </section>
+  </main>
+</body>
+</html>
