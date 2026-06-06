@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copenor – Atualização SP25 - EHP8 (ajustada)</title>
+  <style>
+    :root{
+      --ink:#102132; --muted:#5d6774; --line:#d7dde5; --paper:#ffffff; --bg:#f4f6f8;
+      --cover:#f1f2f4; --blue1:#173a60; --blue2:#305f92;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    .page{width:min(980px,calc(100vw - 40px));margin:24px auto 48px;background:var(--paper);box-shadow:0 12px 36px rgba(0,0,0,.10)}
+    .cover{background:var(--cover);padding:46px 56px 0}
+    .practice,.eyebrow,.byline,.summary-item,.sidebar-card,.value-band .label,.value-band .caption,table,.closing,.note-band{font-family:Arial,Helvetica,sans-serif}
+    .practice{font-size:13px;color:#4a5561;margin-bottom:8px}
+    .eyebrow{font-size:13px;color:#4b5663;margin-bottom:12px}
+    h1{margin:0 0 18px;max-width:780px;font-size:clamp(42px,6vw,64px);line-height:1.02;font-weight:700;color:#0a1930}
+    .subhead{max-width:760px;margin:0 0 26px;font-family:Arial,Helvetica,sans-serif;font-size:24px;line-height:1.4;color:#3c4652}
+    .byline{font-style:italic;font-size:16px;color:#55606d;margin-bottom:34px}
+    .hero{position:relative;height:380px;margin:0 -56px;overflow:hidden;background:
+      radial-gradient(circle at 28% 40%, rgba(255,255,255,.82) 0 10%, rgba(255,255,255,0) 28%),
+      radial-gradient(circle at 70% 52%, rgba(255,255,255,.35) 0 9%, rgba(255,255,255,0) 26%),
+      linear-gradient(135deg, var(--blue1) 0%, var(--blue2) 100%)}
+    .hero:before,.hero:after{content:"";position:absolute;border-radius:50%;border:10px solid rgba(255,255,255,.65);opacity:.85;filter:blur(1px)}
+    .hero:before{width:380px;height:380px;left:250px;top:38px;border-top-color:rgba(255,255,255,.18);border-right-color:rgba(255,255,255,.90);border-bottom-color:rgba(255,255,255,.35);border-left-color:rgba(255,255,255,.70);transform:rotate(18deg)}
+    .hero:after{width:210px;height:210px;left:335px;top:123px;border-top-color:rgba(255,255,255,.95);border-right-color:rgba(255,255,255,.15);border-bottom-color:rgba(255,255,255,.85);border-left-color:rgba(255,255,255,.25);transform:rotate(-22deg)}
+    .shard{position:absolute;width:94px;height:94px;background:linear-gradient(145deg, rgba(255,255,255,.92), rgba(255,255,255,.35));clip-path:polygon(50% 0%,100% 100%,0% 100%);opacity:.78;box-shadow:0 8px 24px rgba(0,0,0,.16)}
+    .s1{left:160px;top:98px;transform:rotate(-18deg)} .s2{left:640px;top:90px;transform:rotate(17deg)}
+    .s3{left:120px;top:244px;transform:rotate(12deg)} .s4{left:695px;top:245px;transform:rotate(-15deg)}
+    .s5{left:486px;top:30px;transform:rotate(30deg);width:72px;height:72px}
+    .date{padding:14px 0 20px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#4a5561}
+    .content{padding:42px 56px 56px}
+    .summary{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;margin-bottom:28px;display:grid;grid-template-columns:1fr 1fr;gap:16px 30px}
+    .summary-item{font-size:14px;color:var(--muted)}
+    .summary-item strong{display:block;color:var(--ink);font-size:15px;margin-bottom:2px}
+    .lead{font-size:20px;line-height:1.72;margin:0 0 22px;max-width:860px}
+    h2{margin:38px 0 14px;font-size:34px;line-height:1.08;font-weight:700;color:#0c223f}
+    p{font-size:19px;line-height:1.72;margin:0 0 16px;max-width:860px}
+    .two-col{display:grid;grid-template-columns:1fr 320px;gap:34px;align-items:start;margin-top:8px}
+    .sidebar{border-left:1px solid var(--line);padding-left:24px}
+    .sidebar-card{background:#f9fafb;border:1px solid var(--line);padding:18px;margin-bottom:18px;font-size:14px;line-height:1.6;color:#2c3641}
+    .sidebar-card h3{margin:0 0 10px;font-size:16px;color:#0e3155}
+    .sidebar-card ul{margin:0;padding-left:18px}
+    .section-list{margin:4px 0 0 22px;padding:0}
+    .section-list li{margin-bottom:10px;font-size:19px;line-height:1.65;max-width:820px}
+    .note-band{margin:22px 0 8px;background:#f9fbfd;border:1px solid var(--line);padding:16px 18px;font-size:15px;line-height:1.65;color:#324051}
+    .tech-table{width:100%;border-collapse:collapse;margin-top:12px;font-family:Arial,Helvetica,sans-serif}
+    .tech-table th,.tech-table td{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 10px;text-align:left;vertical-align:top;font-size:14px;line-height:1.55}
+    .tech-table th{color:#0f355c;font-weight:700;background:#fafbfc}
+    .value-band{margin:34px 0 10px;padding:24px 0 18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .value-band .label{color:var(--muted);font-size:14px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .value-band .amount{font-size:42px;line-height:1.05;font-weight:700;color:#0c223f;margin-bottom:6px}
+    .value-band .caption{color:#4f5b67;font-size:15px}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 10px;text-align:left;vertical-align:top;font-size:15px;line-height:1.55}
+    th{color:#0f355c;font-weight:700;background:#fafbfc}
+    .closing{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:15px;line-height:1.7;color:#394451}
+    @media (max-width:860px){
+      .cover,.content{padding-left:24px;padding-right:24px}
+      .hero{margin-left:-24px;margin-right:-24px;height:280px}
+      .summary{grid-template-columns:1fr}
+      .two-col{grid-template-columns:1fr}
+      .sidebar{border-left:0;padding-left:0}
+      p,.lead,.section-list li{font-size:17px}
+      h2{font-size:28px}
+      .value-band .amount{font-size:34px}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="cover">
+      <div class="practice">Friend Consulting • Proposta técnica e comercial</div>
+      <div class="eyebrow">Copenor – Atualização SP25 - EHP8</div>
+      <h1>Atualização técnica do ambiente SAP para adequação regulatória</h1>
+      <p class="subhead">Proposta para atualização dos Support Packages dos ambientes DEV, QAS e PRD como etapa preparatória às adequações de Localização Brasil relacionadas ao CNPJ alfanumérico.</p>
+      <div class="byline">A/C Alexandre Amorim • Orçamento criado em 5 de junho de 2026</div>
+
+      <div class="hero">
+        <div class="shard s1"></div><div class="shard s2"></div><div class="shard s3"></div><div class="shard s4"></div><div class="shard s5"></div>
+      </div>
+      <div class="date">Junho 2026</div>
+    </section>
+
+    <section class="content">
+      <div class="summary">
+        <div class="summary-item"><strong>Cliente</strong>Copenor Companhia Petroquímica do Nordeste S.A.</div>
+        <div class="summary-item"><strong>Contato</strong>Alexandre Amorim</div>
+        <div class="summary-item"><strong>Modalidade</strong>Pacote fechado (turn key)</div>
+        <div class="summary-item"><strong>Formato de execução</strong>Remoto • impostos inclusos</div>
+        <div class="summary-item"><strong>Esforço estimado</strong>120 horas</div>
+        <div class="summary-item"><strong>Prazo estimado</strong>Até 4 semanas</div>
+      </div>
+
+      <p class="lead">Mudanças regulatórias costumam parecer simples no papel, mas seus impactos reais sobre o ambiente SAP tendem a se espalhar por componentes técnicos, integrações e rotinas operacionais. No caso da adequação relacionada ao CNPJ alfanumérico, a análise inicial realizada pela Copenor indicou a necessidade de aplicação de notas da Localização Brasil. Durante a análise técnica, foi verificado que essa aplicação exige previamente a atualização do ambiente SAP para um nível mais recente de Support Package.</p>
+
+      <div class="two-col">
+        <div>
+          <h2>O contexto</h2>
+          <p>Dessa forma, esta proposta contempla a execução da atualização dos Support Packages do ambiente SAP da Copenor nos ambientes DEV, QAS e PRD, como etapa técnica preparatória para viabilizar a posterior aplicação das notas relacionadas à Localização Brasil.</p>
+          <p>A proposta foi estruturada para combinar objetividade de escopo, previsibilidade de investimento e aderência à urgência da demanda, preservando coerência técnica entre os ambientes e reduzindo riscos na sequência do trabalho.</p>
+
+          <h2>A abordagem proposta</h2>
+          <p>A Friend Consulting propõe a execução da atualização dos Support Packages nos três ambientes SAP da Copenor, contemplando as atividades técnicas de preparação, execução e pós-processamento necessárias para a condução segura da entrega.</p>
+
+          <h2>O que será executado</h2>
+          <ul class="section-list">
+            <li>Atualização dos Support Packages do SAP no ambiente DEV, incluindo pré-atividades e pós-atividades técnicas.</li>
+            <li>Atualização dos Support Packages do SAP no ambiente QAS, incluindo pré-atividades e pós-atividades técnicas.</li>
+            <li>Atualização dos Support Packages do SAP no ambiente PRD, incluindo pré-atividades e pós-atividades técnicas.</li>
+            <li>Acompanhamento da execução técnica e coordenação da entrega.</li>
+          </ul>
+
+          <h2>Detalhamento técnico do upgrade</h2>
+          <p>Com base no planejamento técnico gerado no Maintenance Planner para o ambiente DEV, o upgrade considera a elevação coordenada dos componentes centrais do stack SAP, com posterior replicação da mesma linha técnica para QAS e PRD, respeitando as respectivas janelas e validações do projeto.</p>
+
+          <table class="tech-table">
+            <thead>
+              <tr>
+                <th>Componente</th>
+                <th>Status atual planejado</th>
+                <th>Status alvo planejado</th>
+                <th>Observação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>EHP8 for SAP ERP 6.0</td>
+                <td>SP24</td>
+                <td>SP25</td>
+                <td>Componente principal do upgrade técnico do ERP.</td>
+              </tr>
+              <tr>
+                <td>SAP ERP 6.0</td>
+                <td>SP37</td>
+                <td>SP37</td>
+                <td>Sem alteração prevista no plano técnico atual.</td>
+              </tr>
+              <tr>
+                <td>SAP NetWeaver 7.5</td>
+                <td>SP32</td>
+                <td>SP34</td>
+                <td>Atualização associada ao stack técnico planejado.</td>
+              </tr>
+              <tr>
+                <td>Ferramenta de atualização</td>
+                <td>SUM 2.0</td>
+                <td>Support Package Level 026</td>
+                <td>Ferramenta utilizada para condução técnica do processo.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="note-band">
+            <strong>Nota importante.</strong> Caso a SAP disponibilize o EHP8 SP26 para o stack aplicável da Copenor até a conclusão deste trabalho, a Friend Consulting adotará esse nível na implementação, desde que tecnicamente consistente com o ambiente e com o planejamento final aprovado. Essa diretriz visa alinhar a entrega ao nível de suporte mais aderente à implementação das notas relacionadas ao CNPJ alfanumérico.
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <div class="sidebar-card">
+            <h3>Comentários da proposta</h3>
+            <ul>
+              <li>O preço apresentado já contempla os impostos.</li>
+              <li>Formato de trabalho: remoto.</li>
+              <li>O trabalho contempla análise/desenho, realização, Go Live e suporte.</li>
+            </ul>
+          </div>
+
+          <div class="sidebar-card">
+            <h3>Escopo técnico em síntese</h3>
+            <ul>
+              <li>Upgrade em DEV, QAS e PRD</li>
+              <li>Pré e pós-atividades incluídas</li>
+              <li>Stack técnico alinhado por ambiente</li>
+              <li>Execução remota</li>
+            </ul>
+          </div>
+
+          <div class="sidebar-card">
+            <h3>Exclusões relevantes</h3>
+            <ul>
+              <li>SPDD e SPAU</li>
+              <li>Testes funcionais</li>
+              <li>Correções funcionais</li>
+              <li>Ajustes ABAP</li>
+              <li>Estabilização adicional</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <h2>Atividades desenvolvidas e objetivos alcançados</h2>
+      <p><strong>Atividades desenvolvidas.</strong> Preparação técnica dos ambientes para execução da atualização dos Support Packages; execução das atividades técnicas de atualização nos ambientes DEV, QAS e PRD; realização das atividades de pré-processamento e pós-processamento necessárias à atualização; acompanhamento da execução e coordenação dos checkpoints técnicos da entrega.</p>
+      <p><strong>Objetivos alcançados.</strong> Elevar os ambientes SAP da Copenor ao nível técnico requerido para viabilizar a aplicação das notas de Localização Brasil; manter a coerência técnica entre os ambientes DEV, QAS e PRD; preparar o ambiente SAP para a continuidade das adequações relacionadas ao CNPJ alfanumérico; assegurar a condução controlada da atualização técnica nos ambientes envolvidos.</p>
+
+      <h2>Premissas de execução</h2>
+      <ul class="section-list">
+        <li>Os acessos necessários aos ambientes SAP, servidores e ferramentas envolvidas serão disponibilizados pela Copenor.</li>
+        <li>A execução das janelas técnicas será alinhada previamente entre as equipes Friend e Copenor.</li>
+        <li>Esta proposta contempla exclusivamente a atualização dos Support Packages nos ambientes DEV, QAS e PRD, incluindo pré e pós-atividades técnicas.</li>
+        <li>Esta proposta não contempla atividades de SPDD e SPAU, que poderão ser tratadas sob demanda, caso necessárias.</li>
+        <li>Esta proposta não contempla testes funcionais, que serão de responsabilidade da Copenor.</li>
+        <li>Esta proposta não contempla correções funcionais, ajustes ABAP, estabilização adicional ou outras atividades não previstas no escopo acima.</li>
+        <li>Eventuais demandas adicionais serão tratadas em proposta complementar.</li>
+      </ul>
+
+      <div class="value-band">
+        <div class="label">Investimento</div>
+        <div class="amount">R$ 39.600,00</div>
+        <div class="caption">Pagamento em 15 dias após a conclusão dos serviços • proposta válida até 5 de julho de 2026</div>
+      </div>
+
+      <h2>Entregáveis</h2>
+      <table>
+        <thead>
+          <tr><th>Entregável</th><th>Descrição</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Ambiente DEV</td><td>Atualizado conforme escopo técnico aprovado.</td></tr>
+          <tr><td>Ambiente QAS</td><td>Atualizado conforme escopo técnico aprovado.</td></tr>
+          <tr><td>Ambiente PRD</td><td>Atualizado conforme escopo técnico aprovado.</td></tr>
+          <tr><td>Conclusão técnica</td><td>Reporte formal de conclusão da execução técnica.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="closing">
+        <p>A Friend Consulting coloca-se à disposição da Copenor para conduzir esta etapa técnica com objetividade, segurança e aderência ao escopo acordado, apoiando a preparação do ambiente SAP para as próximas frentes de adequação regulatória.</p>
+        <p><strong>João Paulo Bittencourt</strong><br>“Sócio Administrador”<br>Friend Consulting</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
