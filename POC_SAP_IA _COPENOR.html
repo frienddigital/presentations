@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>POC — Integração SAP ECC FI com Agente de IA | Copenor</title>
+  <style>
+    :root{
+      --ink:#102132;
+      --muted:#5d6774;
+      --line:#d8dde5;
+      --paper:#ffffff;
+      --bg:#f4f6f8;
+      --cover:#f1f2f4;
+      --blue1:#173a60;
+      --blue2:#305f92;
+      --blue3:#6fa2cd;
+      --soft:#f9fafb;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    .page{width:min(1040px,calc(100vw - 40px));margin:24px auto 48px;background:var(--paper);box-shadow:0 12px 36px rgba(0,0,0,.10)}
+    .cover{background:var(--cover);padding:46px 60px 0}
+    .practice,.eyebrow,.subhead,.byline,.summary-item,.card,.mini,.band-caption,.closing,.tag,.note,.footerline,table{font-family:Arial,Helvetica,sans-serif}
+    .practice{font-size:13px;color:#4a5561;margin-bottom:10px}
+    .eyebrow{font-size:13px;color:#4b5663;margin-bottom:12px;letter-spacing:.01em}
+    h1{margin:0 0 16px;max-width:860px;font-size:clamp(42px,6vw,66px);line-height:1.02;font-weight:700;color:#091a2f}
+    .subhead{max-width:820px;margin:0 0 22px;font-size:24px;line-height:1.42;color:#3c4652}
+    .byline{font-style:italic;font-size:16px;color:#55606d;margin-bottom:32px}
+    .hero{position:relative;height:380px;margin:0 -60px;overflow:hidden;background:
+      radial-gradient(circle at 25% 40%, rgba(255,255,255,.80) 0 8%, rgba(255,255,255,0) 28%),
+      radial-gradient(circle at 74% 52%, rgba(255,255,255,.34) 0 9%, rgba(255,255,255,0) 26%),
+      linear-gradient(135deg, var(--blue1) 0%, var(--blue2) 55%, var(--blue3) 100%)}
+    .hero:before,.hero:after{content:"";position:absolute;border-radius:50%;border:10px solid rgba(255,255,255,.64);opacity:.88;filter:blur(1px)}
+    .hero:before{width:360px;height:360px;left:230px;top:35px;border-top-color:rgba(255,255,255,.15);border-right-color:rgba(255,255,255,.92);border-bottom-color:rgba(255,255,255,.34);border-left-color:rgba(255,255,255,.68);transform:rotate(18deg)}
+    .hero:after{width:200px;height:200px;left:312px;top:115px;border-top-color:rgba(255,255,255,.96);border-right-color:rgba(255,255,255,.12);border-bottom-color:rgba(255,255,255,.82);border-left-color:rgba(255,255,255,.20);transform:rotate(-18deg)}
+    .tri{position:absolute;width:92px;height:92px;background:linear-gradient(145deg, rgba(255,255,255,.92), rgba(255,255,255,.32));clip-path:polygon(50% 0%,100% 100%,0 100%);opacity:.80;box-shadow:0 8px 24px rgba(0,0,0,.16)}
+    .t1{left:150px;top:96px;transform:rotate(-18deg)} .t2{left:660px;top:88px;transform:rotate(17deg)}
+    .t3{left:118px;top:248px;transform:rotate(12deg)} .t4{left:720px;top:240px;transform:rotate(-15deg)}
+    .t5{left:510px;top:28px;transform:rotate(30deg);width:70px;height:70px}
+    .date{padding:14px 0 20px;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#4a5561}
+    .content{padding:42px 60px 56px}
+    .summary{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;margin-bottom:28px;display:grid;grid-template-columns:repeat(3, 1fr);gap:16px 30px}
+    .summary-item{font-size:14px;color:var(--muted)}
+    .summary-item strong{display:block;color:var(--ink);font-size:15px;margin-bottom:2px}
+    .lead{font-size:20px;line-height:1.72;margin:0 0 22px;max-width:900px}
+    h2{margin:38px 0 14px;font-size:34px;line-height:1.08;font-weight:700;color:#0c223f}
+    p{font-size:19px;line-height:1.72;margin:0 0 16px;max-width:900px}
+    .two-col{display:grid;grid-template-columns:1fr 320px;gap:36px;align-items:start;margin-top:8px}
+    .sidebar{border-left:1px solid var(--line);padding-left:24px}
+    .card{background:var(--soft);border:1px solid var(--line);padding:18px;margin-bottom:18px;font-size:14px;line-height:1.6;color:#2c3641}
+    .card h3{margin:0 0 10px;font-size:16px;color:#0e3155}
+    .card ul{margin:0;padding-left:18px}
+    .section-list{margin:4px 0 0 22px;padding:0}
+    .section-list li{margin-bottom:10px;font-size:19px;line-height:1.65;max-width:860px}
+    .note{margin:16px 0 6px;background:#f9fbfd;border:1px solid var(--line);padding:16px 18px;font-size:15px;line-height:1.65;color:#324051}
+    .tag{display:inline-block;padding:4px 8px;border:1px solid #bdd0e1;color:#26435f;font-size:12px;border-radius:999px;margin-right:6px;margin-bottom:6px;background:#f7fafc}
+    .timeline{display:grid;grid-template-columns:repeat(4, 1fr);gap:14px;margin-top:14px}
+    .mini{border:1px solid var(--line);background:#fbfcfd;padding:14px 14px 12px;min-height:190px}
+    .mini .step{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5a6673;margin-bottom:8px}
+    .mini h4{margin:0 0 10px;font-size:20px;line-height:1.15;color:#0f355c;font-family:Georgia,"Times New Roman",serif}
+    .mini p{margin:0;font-size:14px;line-height:1.55;max-width:none;font-family:Arial,Helvetica,sans-serif}
+    .band{margin:34px 0 10px;padding:24px 0 18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .band-label{font-family:Arial,Helvetica,sans-serif;color:var(--muted);font-size:14px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .band-amount{font-size:42px;line-height:1.05;font-weight:700;color:#0c223f;margin-bottom:6px}
+    .band-caption{color:#4f5b67;font-size:15px}
+    table{width:100%;border-collapse:collapse;margin-top:10px}
+    th,td{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 10px;text-align:left;vertical-align:top;font-size:15px;line-height:1.55}
+    th{color:#0f355c;font-weight:700;background:#fafbfc}
+    .closing{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:15px;line-height:1.7;color:#394451}
+    .footerline{font-size:13px;color:#62707d;margin-top:22px}
+    @media (max-width:980px){.summary{grid-template-columns:1fr 1fr}.timeline{grid-template-columns:1fr 1fr}}
+    @media (max-width:860px){.cover,.content{padding-left:24px;padding-right:24px}.hero{margin-left:-24px;margin-right:-24px;height:280px}.summary{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.timeline{grid-template-columns:1fr}.sidebar{border-left:0;padding-left:0}p,.lead,.section-list li{font-size:17px}h2{font-size:28px}.band-amount{font-size:34px}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="cover">
+      <div class="practice">Friend Consulting • Proposta técnica e comercial</div>
+      <div class="eyebrow">POC — Integração SAP ECC · Módulo FI com Agente de Inteligência Artificial</div>
+      <h1>IA aplicada ao SAP ECC com controle técnico, segurança e foco no módulo FI</h1>
+      <p class="subhead">Prova de conceito para demonstrar, em ambiente de desenvolvimento da Copenor, o acesso a dados reais do módulo FI por um agente de IA via MCP Server externo, com análise em linguagem natural, governança técnica e operação dentro do ambiente controlado da companhia.</p>
+      <div class="byline">Copenor · Petroquímica • Apresentação 29 de junho de 2026 • Confidencial</div>
+
+      <div class="hero">
+        <div class="tri t1"></div><div class="tri t2"></div><div class="tri t3"></div><div class="tri t4"></div><div class="tri t5"></div>
+      </div>
+
+      <div class="date">Junho 2026</div>
+    </section>
+
+    <section class="content">
+      <div class="summary">
+        <div class="summary-item"><strong>Cliente</strong>Copenor — Petroquímica</div>
+        <div class="summary-item"><strong>Preparado por</strong>Friend Consulting</div>
+        <div class="summary-item"><strong>Modalidade</strong>POC em 4 semanas</div>
+        <div class="summary-item"><strong>Ambiente</strong>SAP ECC DEV via VPN</div>
+        <div class="summary-item"><strong>Equipe estimada</strong>120 horas</div>
+        <div class="summary-item"><strong>Foco funcional</strong>Módulo FI</div>
+      </div>
+
+      <p class="lead">A proposta parte de um contexto estratégico claro: a ampliação da parceria SAP–Anthropic e o uso do Claude como capacidade central de raciocínio no ecossistema de IA da SAP, incluindo o Joule e agentes conectados a sistemas externos. Para ambientes SAP ECC on-premise, o caminho proposto utiliza MCP Server externo dentro da infraestrutura da Copenor, preservando o ambiente SAP existente e mantendo a operação em um perímetro técnico controlado.</p>
+
+      <div class="two-col">
+        <div>
+          <h2>O contexto</h2>
+          <p>A POC foi concebida para demonstrar que, em ambiente de desenvolvimento da Copenor, um agente de IA pode consultar dados reais do módulo FI, responder perguntas de negócio em linguagem natural e apoiar a identificação de desvios financeiros sem modificar o SAP e sem expor dados fora do ambiente controlado.</p>
+          <p>A arquitetura proposta utiliza um MCP Server externo em Python rodando dentro da VPN da Copenor, conectado ao SAP ECC via RFC. Esse componente expõe BAPIs do módulo FI como ferramentas, enquanto o Claude atua como camada de raciocínio e análise.</p>
+
+          <h2>Segurança e confidencialidade dos dados</h2>
+          <p>A preocupação central da Copenor — como garantir que os dados financeiros não fiquem expostos — é tratada por desenho. Os dados operacionais permanecem na infraestrutura da companhia; o agente recebe perguntas e contexto, e não uma cópia massiva do banco SAP.</p>
+          <div class="note"><strong>Princípios de proteção previstos na POC.</strong> Dados não treinam modelos no plano Claude Team Standard; o MCP Server roda atrás da VPN da Copenor; o acesso RFC é restrito ao escopo FI; e os controles administrativos permanecem sob governança da TI da companhia.</div>
+
+          <h2>Arquitetura proposta</h2>
+          <p>A solução adota o Caminho B, com MCP Server externo via RFC, e organiza a arquitetura em quatro camadas:</p>
+          <ul class="section-list">
+            <li><strong>Acesso.</strong> MCP Server Python com FastMCP + PyRFC, rodando dentro da VPN da Copenor e expondo BAPIs FI como ferramentas.</li>
+            <li><strong>Raciocínio.</strong> Claude como camada de interpretação das perguntas em linguagem natural e orquestração das ferramentas MCP.</li>
+            <li><strong>Dados.</strong> SAP ECC DEV da Copenor, com dados reais de contabilidade e finanças, sem impacto em produção.</li>
+            <li><strong>Segurança.</strong> Usuário RFC dedicado, perfil restrito e operação controlada pela equipe técnica da Copenor e da Friend.</li>
+          </ul>
+
+          <h2>Escopo técnico e funcional da POC</h2>
+          <p>A prova de conceito cobre os principais blocos do módulo FI, com APIs e tabelas relevantes para consulta e análise financeira:</p>
+
+          <div class="note">
+            <span class="tag">FI-GL</span>
+            <span class="tag">FI-AP</span>
+            <span class="tag">FI-AR</span>
+            <span class="tag">FI-TR</span>
+          </div>
+
+          <table>
+            <thead>
+              <tr><th>Bloco</th><th>Exemplos de APIs / tabelas</th><th>Uso esperado pelo agente</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Contabilidade Geral — FI-GL</td><td>BAPI_GL_ACC_GETPERIODBALANCES, BAPI_ACC_GL_POSTING_GET_DETAIL, SKA1, SKB1, BKPF, BSEG</td><td>Consulta de saldos por período, leitura de lançamentos contábeis e análise histórica de documentos FI.</td></tr>
+              <tr><td>Contas a Pagar — FI-AP</td><td>BAPI_AP_ACC_GETOPENITEMS, BAPI_OUTGOINGINVOICE_GETDETAIL, LFB1, BSIK, BSAK</td><td>Listagem de faturas pendentes, consulta de notas de entrada e análise de aging de fornecedores.</td></tr>
+              <tr><td>Contas a Receber — FI-AR</td><td>BAPI_AR_ACC_GETOPENITEMS, BAPI_INCOMINGINVOICE_GETDETAIL, KNB1, BSID, BSAD</td><td>Consulta de títulos em aberto, faturamento por cliente e análise de inadimplência.</td></tr>
+              <tr><td>Banco e Caixa — FI-TR</td><td>BAPI_BANKACCOUNTBALANCE_GETLIST, FEBEP, FEBRE</td><td>Posição de caixa, leitura de extratos e identificação de partidas não reconciliadas.</td></tr>
+            </tbody>
+          </table>
+
+          <h2>Cronograma proposto</h2>
+          <div class="timeline">
+            <div class="mini"><div class="step">Semana 1</div><h4>Base técnica</h4><p>Configuração RFC, usuário técnico SAP, perfil de autorização FI, liberação de porta e testes iniciais de conectividade.</p></div>
+            <div class="mini"><div class="step">Semanas 1–2</div><h4>Validação SAP</h4><p>Teste das BAPIs FI no DEV da Copenor, documentação de campos e desenvolvimento do MCP Server.</p></div>
+            <div class="mini"><div class="step">Semanas 2–3</div><h4>Ferramentas MCP</h4><p>Implementação das ferramentas FI, testes com dados reais e configuração do agente Claude com prompt financeiro.</p></div>
+            <div class="mini"><div class="step">Semana 4</div><h4>Validação executiva</h4><p>Ajustes finais, documentação, validação com a Copenor e apresentação de resultados à presidência.</p></div>
+          </div>
+
+          <h2>Próximos passos para aprovação</h2>
+          <table>
+            <thead>
+              <tr><th>Ação</th><th>Responsável</th><th>Prazo</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Aprovação da proposta pela presidência da Copenor</td><td>Alexandre Amorim</td><td>29/06/2026</td></tr>
+              <tr><td>Liberação de acesso VPN ao ambiente DEV do SAP ECC</td><td>TI Copenor</td><td>Semana 1</td></tr>
+              <tr><td>Contratação do plano Claude Team Standard — 10 usuários</td><td>Friend / Copenor</td><td>Semana 1</td></tr>
+              <tr><td>Kick-off técnico com a equipe Friend</td><td>Gestor Advisor</td><td>Semana 1</td></tr>
+              <tr><td>Demonstração final com Alexandre Amorim</td><td>Gestor Advisor</td><td>Semana 4</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <aside class="sidebar">
+          <div class="card">
+            <h3>Objetivo da POC</h3>
+            <ul>
+              <li>Consultar dados reais de FI via VPN</li>
+              <li>Responder perguntas em linguagem natural</li>
+              <li>Identificar desvios financeiros em tempo real</li>
+              <li>Sem modificar o SAP</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Equipe técnica estimada</h3>
+            <ul>
+              <li>Gestor Advisor — 20h</li>
+              <li>Consultor Funcional SAP — 16h</li>
+              <li>Desenvolvedor ABAP — 16h</li>
+              <li>Administrador Basis — 8h</li>
+              <li>Especialista Python / MCP Server — 60h</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Plano Anthropic</h3>
+            <ul>
+              <li>Claude Team Standard</li>
+              <li>10 assentos</li>
+              <li>Estimativa conservadora: US$ 214/mês</li>
+              <li>Referência em reais: ~R$ 1.284/mês</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <h2>Estimativa de esforço e custo de operação</h2>
+      <p>A equipe proposta combina governança, visão funcional de FI, validação técnica no SAP ECC, infraestrutura Basis e desenvolvimento do MCP Server em Python. A estimativa total da POC é de 120 horas, distribuídas entre cinco perfis complementares.</p>
+
+      <table>
+        <thead>
+          <tr><th>Papel</th><th>Escopo na POC</th><th>Horas</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Gestor Advisor</td><td>Governança, alinhamento com a Copenor, definição do system prompt e apresentação à presidência</td><td>20h</td></tr>
+          <tr><td>Consultor Funcional SAP</td><td>Mapeamento funcional do FI, orientação de campos e BAPIs, validação dos dados retornados</td><td>16h</td></tr>
+          <tr><td>Desenvolvedor ABAP</td><td>Teste e validação das BAPIs FI no DEV da Copenor e documentação de campos e filtros</td><td>16h</td></tr>
+          <tr><td>Administrador Basis</td><td>Criação do usuário RFC técnico, configuração do gateway RFC, liberação de porta e teste de conectividade</td><td>8h</td></tr>
+          <tr><td>Especialista Python MCP Server</td><td>Desenvolvimento do MCP Server, conexão RFC via PyRFC, implementação das ferramentas FI e testes de integração</td><td>60h</td></tr>
+          <tr><td><strong>Total</strong></td><td></td><td><strong>120h</strong></td></tr>
+        </tbody>
+      </table>
+
+      <div class="band">
+        <div class="band-label">Estimativa de custo mensal da camada de IA</div>
+        <div class="band-amount">~ US$ 214/mês</div>
+        <div class="band-caption">Estimativa conservadora para 10 usuários, 2 consultas analíticas por dia e uso médio do plano Claude Team Standard. Referência cambial adotada: R$ 6,00 por dólar.</div>
+      </div>
+
+      <div class="closing">
+        <p>A proposta busca validar, em ambiente controlado, um caminho pragmático para aproximar o SAP ECC da Copenor do uso corporativo de inteligência artificial com governança técnica, segurança de dados e foco direto em casos financeiros de negócio.</p>
+        <p><strong>Friend Consulting</strong><br>Av. Paulista, São Paulo • Confidencial • Junho 2026</p>
+      </div>
+
+      <div class="footerline">Versão HTML inspirada no estilo editorial do material da McKinsey, adaptada ao conteúdo técnico e comercial da proposta POC da Copenor.</div>
+    </section>
+  </main>
+</body>
+</html>
