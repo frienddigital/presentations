@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend Consulting - POC Integração SAP ECC FI com IA</title>
+    <style>
+        :root {
+            --primary-color: #051C2C; /* Azul McKinsey Navy */
+            --text-color: #222222;    /* Charcoal para corpo de texto */
+            --light-bg: #F4F6F8;      /* Cinza muito claro para seções/tabelas */
+            --border-color: #E2E8F0;  /* Linhas finas de divisão */
+            --accent-blue: #00779B;   /* Azul secundário para destaques */
+        }
+
+        body {
+            font-family: "Georgia", "Times New Roman", serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #FFFFFF;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        /* Estilo do Cabeçalho Editorial */
+        .header-meta {
+            font-family: "Arial", "Helvetica", sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .company-brand {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        h1 {
+            font-family: "Georgia", serif;
+            font-size: 2.6rem;
+            font-weight: normal;
+            color: var(--primary-color);
+            line-height: 1.2;
+            margin: 0 0 15px 0;
+        }
+
+        .subtitle {
+            font-family: "Arial", sans-serif;
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .author-line {
+            font-family: "Arial", sans-serif;
+            font-size: 0.9rem;
+            color: #333;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        h2 {
+            font-family: "Arial", sans-serif;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 50px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-family: "Arial", sans-serif;
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-top: 35px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        /* Bloco de Citação Editorial */
+        .quote-block {
+            border-left: 4px solid var(--accent-blue);
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: #444;
+            background-color: var(--light-bg);
+        }
+        
+        .quote-source {
+            display: block;
+            font-family: "Arial", sans-serif;
+            font-size: 0.85rem;
+            font-style: normal;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-top: 12px;
+        }
+
+        /* Estrutura de Grid Flexível — Corrige o truncamento de texto */
+        .mck-grid {
+            margin: 25px 0;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .mck-row {
+            display: flex;
+            flex-direction: row;
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 0;
+            gap: 30px;
+        }
+
+        .mck-row.header {
+            font-family: "Arial", sans-serif;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 0.95rem;
+            border-bottom: 2px solid var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mck-label {
+            font-family: "Arial", sans-serif;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1rem;
+            flex: 0 0 30%; /* Alocação proporcional fixa na linha */
+            min-width: 180px;
+            word-wrap: break-word;
+        }
+
+        .mck-value {
+            font-size: 1.05rem;
+            flex: 1; /* Ocupa todo o resto do espaço disponível */
+            text-align: justify;
+        }
+
+        .mck-value em {
+            display: block;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 6px;
+            font-family: "Arial", sans-serif;
+            font-style: normal;
+        }
+
+        /* Destaque técnico para APIs/Tabelas para evitar quebra de palavras complexas */
+        .tech-code {
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            color: var(--primary-color);
+            background-color: var(--light-bg);
+            padding: 2px 6px;
+            border-radius: 3px;
+            display: inline-block;
+            word-break: break-all;
+            font-size: 0.95rem;
+        }
+
+        /* Listas Estilizadas */
+        ul {
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        /* Rodapé de Página */
+        footer {
+            margin-top: 80px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            font-family: "Arial", sans-serif;
+            font-size: 0.85rem;
+            color: #777;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Responsividade para telas móveis */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            .mck-row {
+                flex-direction: column;
+                gap: 8px;
+                padding: 16px 0;
+            }
+            .mck-label {
+                flex: none;
+                min-width: 100%;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Cabeçalho de Metadados -->
+        <div class="header-meta">
+            <span class="company-brand">Friend Consulting</span>
+            <span>Junho 2026 — Confidencial</span>
+        </div>
+
+        <!-- Título Principal -->
+        <h1>POC Integração SAP ECC Módulo FI com Agente de Inteligência Artificial</h1>
+        
+        <div class="subtitle">
+            Demonstração de viabilidade técnica para automação, conformidade e análise financeira preditiva em ambiente controlado.
+        </div>
+
+        <div class="author-line">
+            <strong>Cliente:</strong> Copenor Petroquímica <br>
+            <strong>Preparado por:</strong> Friend Consulting <br>
+            <strong>Apresentação:</strong> 29 de junho de 2026
+        </div>
+
+        <!-- Citação Inicial -->
+        <div class="quote-block">
+            "A SAP e a Anthropic anunciaram hoje planos para expandir sua colaboração e entregar soluções avançadas de IA a clientes corporativos, tornando o Claude — modelo de IA da Anthropic — a principal capacidade de raciocínio e agência incorporada em todo o portfólio de soluções habilitadas por IA da SAP, alimentando o Joule e os agentes Joule."
+            <span class="quote-source">SAP News Center — SAP Sapphire 2026 Orlando, 12 de maio de 2026</span>
+        </div>
+
+        <p>
+            O Claude é o motor de raciocínio por trás do Joule, o assistente de IA nativo da SAP que atua no S/4HANA, SuccessFactors, Ariba e em sistemas externos via protocolo MCP. Para ambientes SAP ECC <em>on-premise</em>, o acesso via MCP Server externo (Caminho B) está em estrita conformidade com as diretrizes da <strong>SAP API Policy v4/2026</strong>.
+        </p>
+
+        <!-- Seção de Segurança -->
+        <h2>Segurança e confidencialidade dos dados da Copenor</h2>
+        <p>
+            Esta seção responde diretamente à preocupação central levantada pela gestão de TI da Copenor: como garantir o isolamento e a proteção total dos dados financeiros corporativos?
+        </p>
+
+        <div class="mck-grid">
+            <div class="mck-row header">
+                <div style="flex: 0 0 30%; min-width: 180px;">Garantia</div>
+                <div style="flex: 1;">Como funciona / Evidência Contratual</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Dados não treinam modelos</div>
+                <div class="mck-value">
+                    O plano Team Standard exclui contratualmente o uso dos dados da Copenor para treinamento de IA.
+                    <em>Evidência: Commercial Terms of Service Anthropic</em>
+                </div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Dados não saem da VPN</div>
+                <div class="mck-value">
+                    O MCP Server executa dentro da infraestrutura da Copenor, protegido por VPN. Apenas análise textual estruturada trafega para o Claude — nunca dados brutos em massa.
+                    <em>Evidência: Arquitetura da solução controlada pela TI da Copenor</em>
+                </div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Acesso restrito por perfil</div>
+                <div class="mck-value">
+                    O usuário RFC criado no ambiente SAP possui autorizações mínimas, restrito exclusivamente às transações de FI do escopo da POC.
+                    <em>Evidência: Perfil de autorização SAP criado pela equipe técnica Friend</em>
+                </div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Dados deletados em 30 dias</div>
+                <div class="mck-value">
+                    No plano Team Standard, as interações são eliminadas definitivamente dos servidores da Anthropic em até 30 dias após a exclusão.
+                    <em>Evidência: Privacy Center — privacy.claude.com</em>
+                </div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Sem exposição a terceiros</div>
+                <div class="mck-value">
+                    A Anthropic não compartilha dados de clientes comerciais com terceiros para fins de treinamento ou análise.
+                    <em>Evidência: Política de Privacidade — anthropic.com/privacy</em>
+                </div>
+            </div>
+        </div>
+
+        <p>
+            Os dados financeiros da Copenor ficam na infraestrutura da Copenor. O Claude recebe perguntas e contexto, não uma cópia do banco de dados SAP. O contrato com a Anthropic garante que nenhum dado é usado para treinar modelos. A Friend configura e documenta cada camada de segurança antes do go-live.
+        </p>
+
+        <!-- Seção 1: Objetivo -->
+        <h2>1. Objetivo</h2>
+        <p>
+            Demonstrar, em ambiente de desenvolvimento da Copenor (SAP ECC via VPN), que o Claude acessa dados reais do módulo FI via MCP Server externo em Python, responde perguntas de negócio em linguagem natural e identifica desvios financeiros em tempo real, sem modificar o SAP e sem expor dados fora do ambiente controlado.
+        </p>
+
+        <!-- Seção 2: Arquitetura -->
+        <h2>2. Arquitetura: Caminho B (MCP Server via RFC)</h2>
+        
+        <div class="mck-grid">
+            <div class="mck-row header">
+                <div style="flex: 0 0 30%; min-width: 180px;">Camada</div>
+                <div style="flex: 1;">Componente & Função Técnica</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Acesso</div>
+                <div class="mck-value">
+                    <strong>MCP Server Python (FastMCP + PYRFC):</strong> Roda dentro da VPN Copenor, conecta ao ECC via RFC e expõe BAPIs do FI como ferramentas MCP. Zero modificação no SAP.
+                </div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Raciocínio</div>
+                <div class="mck-value">
+                    <strong>Claude (Anthropic) parceiro oficial SAP:</strong> Interpreta perguntas em linguagem natural, chama as ferramentas MCP e entrega análise financeira estruturada.
+                </div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Dados</div>
+                <div class="mck-value">
+                    <strong>SAP ECC DEV FI via VPN Copenor:</strong> Ambiente de desenvolvimento com dados reais de contabilidade e finanças, sem impacto em produção.
+                </div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Segurança</div>
+                <div class="mck-value">
+                    <strong>Usuário RFC dedicado + VPN + perfil FI restrito:</strong> Autorização exclusiva para BAPIs FI do escopo. Dados não saem da VPN e nenhum dado é armazenado fora da Copenor.
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 3: APIs -->
+        <h2>3. APIs SAP ECC Módulo FI disponíveis para o agente de IA</h2>
+        <p>
+            O SAP ECC disponibiliza BAPIs nativas cobrindo todos os sub-módulos de FI. Os exemplos abaixo representam as interfaces mais relevantes para os casos de uso da POC. O conjunto completo disponível é significativamente maior e pode ser expandido posteriormente.
+        </p>
+
+        <h3>Contabilidade Geral (FI-GL)</h3>
+        <div class="mck-grid">
+            <div class="mck-row header">
+                <div style="flex: 0 0 35%; min-width: 220px;">BAPI / Tabela</div>
+                <div style="flex: 1;">O que expõe & Uso pelo Agente</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">BAPI_GL_ACC_GETPERIODBALANCES</span></div>
+                <div class="mck-value"><strong>Saldos de conta contábil por período:</strong> Consultar saldo de qualquer conta GL por período e exercício.</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">BAPI_ACC_GL_POSTING_GET_DETAIL</span></div>
+                <div class="mck-value"><strong>Detalhes de lançamentos contábeis:</strong> Analisar lançamentos de valor, data e centro de custo.</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">SKA1 / SKB1</span></div>
+                <div class="mck-value"><strong>Plano de contas e dados mestre de conta:</strong> Identificar conta por descrição ou grupo contábil.</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">BKPF / BSEG</span></div>
+                <div class="mck-value"><strong>Cabeçalho e itens de documento:</strong> Histórico completo de documentos FI por período contábil.</div>
+            </div>
+        </div>
+
+        <h3>Contas a Pagar (FI-AP)</h3>
+        <div class="mck-grid">
+            <div class="mck-row header">
+                <div style="flex: 0 0 35%; min-width: 220px;">BAPI / Tabela</div>
+                <div style="flex: 1;">O que expõe & Uso pelo Agente</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">BAPI_AP_ACC_GETOPENITEMS</span></div>
+                <div class="mck-value"><strong>Itens em aberto de contas a pagar:</strong> Listar faturas pendentes de pagamento por fornecedor e vencimento.</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">BAPI_OUTGOINGINVOICE_GETDETAIL</span></div>
+                <div class="mck-value"><strong>Detalhes de nota fiscal de entrada:</strong> Consultar NFs lançadas por fornecedor, valor e status.</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">LFB1 / BSIK / BSAK</span></div>
+                <div class="mck-value"><strong>Dados FI de fornecedor e partidas AP:</strong> Análise de aging de AP vencidos, a vencer e pagos.</div>
+            </div>
+        </div>
+
+        <h3>Contas a Receber (FI-AR)</h3>
+        <div class="mck-grid">
+            <div class="mck-row header">
+                <div style="flex: 0 0 35%; min-width: 220px;">BAPI / Tabela</div>
+                <div style="flex: 1;">O que expõe & Uso pelo Agente</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">BAPI_AR_ACC_GETOPENITEMS</span></div>
+                <div class="mck-value"><strong>Itens em aberto de contas a receber:</strong> Listar títulos a receber por cliente, valor e vencimento.</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">BAPI_INCOMINGINVOICE_GETDETAIL</span></div>
+                <div class="mck-value"><strong>Detalhes de notas fiscais de saída:</strong> Consultar faturamento por cliente, período e status.</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">KNB1 / BSID / BSAD</span></div>
+                <div class="mck-value"><strong>Dados FI de cliente e partidas AR:</strong> Análise de inadimplência e aging de AR por cliente.</div>
+            </div>
+        </div>
+
+        <h3>Banco e Caixa (FI-TR)</h3>
+        <div class="mck-grid">
+            <div class="mck-row header">
+                <div style="flex: 0 0 35%; min-width: 220px;">BAPI / Tabela</div>
+                <div style="flex: 1;">O que expõe & Uso pelo Agente</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">BAPI_BANKACCOUNT_BALANCE_GETLIST</span></div>
+                <div class="mck-value"><strong>Saldos de contas bancárias:</strong> Consultar posição de caixa por banco e moeda.</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label"><span class="tech-code">FEBEP / FEBRE</span></div>
+                <div class="mck-value"><strong>Extratos bancários e partidas de reconciliação:</strong> Identificar lançamentos bancários não reconciliados.</div>
+            </div>
+        </div>
+
+        <!-- Seção 4: Cronograma -->
+        <h2>4. Cronograma: 4 semanas</h2>
+        <div class="mck-grid">
+            <div class="mck-row header">
+                <div style="flex: 0 0 20%; min-width: 100px;">Fase</div>
+                <div style="flex: 1;">Atividades Principais & Responsáveis</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Fase 1 (Semana 1)</div>
+                <div class="mck-value">
+                    Configuração RFC, usuário técnico SAP, perfil de autorização FI, liberação de porta e teste de conectividade.
+                    <em>Responsáveis: Basis, Desenvolvedor ABAP e Consultor Funcional SAP</em>
+                </div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Fase 2 (Semana 1-2)</div>
+                <div class="mck-value">
+                    Teste e validação das BAPIs FI no DEV, documentação de campos e desenvolvimento estrutural do MCP Server.
+                    <em>Responsáveis: Desenvolvedor ABAP e Especialista Python</em>
+                </div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Fase 3 (Semana 2-3)</div>
+                <div class="mck-value">
+                    Ferramentas MCP FI, testes com dados reais e configuração do agente Claude com system prompt financeiro dedicado.
+                    <em>Responsáveis: Especialista Python e Gestor Advisor</em>
+                </div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Fase 4 (Semana 4)</div>
+                <div class="mck-value">
+                    Validação com a Copenor, ajustes finais, documentação geral e apresentação executiva à presidência.
+                    <em>Responsáveis: Gestor Advisor, Consultor Funcional SAP e Especialistas</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 5: Esforço -->
+        <h2>5. Estimativa de esforço da equipe técnica</h2>
+        <div class="mck-grid">
+            <div class="mck-row header">
+                <div style="flex: 0 0 30%; min-width: 180px;">Papel</div>
+                <div style="flex: 1;">Escopo na POC & Horas Estimadas</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Gestor Advisor</div>
+                <div class="mck-value">Governança, alinhamento com a Copenor, definição do system prompt e apresentação à presidência. <br><strong>Dedicação: 20h</strong></div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Consultor Funcional SAP</div>
+                <div class="mck-value">Mapeamento funcional do módulo FI, orientação de campos/BAPIs e validação dos dados retornados. <br><strong>Dedicação: 16h</strong></div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Desenvolvedor ABAP</div>
+                <div class="mck-value">Teste e validação das BAPIs FI no ambiente DEV da Copenor, documentação de campos e filtros. <br><strong>Dedicação: 16h</strong></div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Administrador Basis</div>
+                <div class="mck-value">Criação do usuário RFC técnico, configuração do gateway RFC e testes de conectividade via SM59. <br><strong>Dedicação: 8h</strong></div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Especialista Python</div>
+                <div class="mck-value">Desenvolvimento do MCP Server, conexão via PyRFC, implementação das ferramentas FI e testes de integração com o agente. <br><strong>Dedicação: 60h</strong></div>
+            </div>
+            <div class="mck-row" style="border-top: 2px solid var(--primary-color); font-weight: bold;">
+                <div class="mck-label">TOTAL</div>
+                <div class="mck-value">Carga horária total dedicada ao projeto. <br><strong>Dedicação: 120h</strong></div>
+            </div>
+        </div>
+
+        <!-- Seção 6: Custos -->
+        <h2>6. Plano Anthropic Team Standard: Estimativa de custo mensal</h2>
+        <p>
+            Para a POC com 10 usuários realizando 2 consultas analíticas por dia, o plano Claude Team Standard é suficiente e mais adequado do que o Enterprise: ele garante contratualmente que os dados corporativos não treinam modelos, exige um mínimo de apenas 5 assentos e evita contratos de alta escala.
+        </p>
+
+        <div class="mck-grid">
+            <div class="mck-row header">
+                <div style="flex: 0 0 30%; min-width: 180px;">Item</div>
+                <div style="flex: 1;">Detalhe Técnico</div>
+                <div style="flex: 0 0 15%; min-width: 100px; text-align: right;">Custo Mensal</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">10 assentos Team Standard</div>
+                <div class="mck-value">Valor de US$ 20/assento (faturamento anual). Acesso corporativo seguro onde os dados não treinam modelos. Retenção de 30 dias.</div>
+                <div style="flex: 0 0 15%; min-width: 100px; text-align: right; font-weight: bold;">US$ 200</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Consumo de tokens</div>
+                <div class="mck-value">10 usuários x 2 consultas/dia x 22 dias = ~440 consultas/mês. Média de ~4.500 tokens por consulta (input+output). Total de ~2M de tokens/mês via Sonnet 3.5.</div>
+                <div style="flex: 0 0 15%; min-width: 100px; text-align: right; font-weight: bold;">~ US$ 14</div>
+            </div>
+            <div class="mck-row" style="border-top: 2px solid var(--primary-color); font-weight: bold;">
+                <div class="mck-label">TOTAL ESTIMADO</div>
+                <div class="mck-value">Estimativa conservadora para uso de intensidade média na POC.</div>
+                <div style="flex: 0 0 15%; min-width: 100px; text-align: right; font-weight: bold;">~ R$ 1.284<br><span style="font-size: 0.8rem; font-weight: normal; color: #555;">(US$ 214)</span></div>
+            </div>
+        </div>
+        
+        <p style="font-size: 0.9rem; color: #555; font-style: italic;">
+            * Câmbio de referência: R$ 6,00/USD. Contrato anual com faturamento direto com a Anthropic em dólar. O consumo real de tokens varia estritamente conforme a volumetria e complexidade das consultas da equipe.
+        </p>
+
+        <!-- Seção 7: Próximos Passos -->
+        <h2>7. Próximos passos para aprovação</h2>
+        <div class="mck-grid">
+            <div class="mck-row header">
+                <div style="flex: 0 0 40%; min-width: 200px;">Ação Estratégica</div>
+                <div style="flex: 1;">Responsável & Prazo Previsto</div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Aprovação da proposta pela presidência</div>
+                <div class="mck-value">Alexandre Amorim — <strong>29/06/2026</strong></div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Liberação de acesso VPN ao ambiente DEV</div>
+                <div class="mck-value">TI Copenor — <strong>Semana 1</strong></div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Contratação do plano Claude Team Standard</div>
+                <div class="mck-value">Friend / Copenor — <strong>Semana 1</strong></div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Kick-off técnico com a equipe Friend</div>
+                <div class="mck-value">Gestor Advisor — <strong>Semana 1</strong></div>
+            </div>
+            <div class="mck-row">
+                <div class="mck-label">Demonstração final e entrega de resultados</div>
+                <div class="mck-value">Gestor Advisor — <strong>Semana 4</strong></div>
+            </div>
+        </div>
+
+        <!-- Rodapé Final -->
+        <footer>
+            <span>Friend Consulting — Av. Paulista, São Paulo</span>
+            <span>Confidencial | Versão V4</span>
+        </footer>
+
+    </div>
+
+</body>
+</html>
